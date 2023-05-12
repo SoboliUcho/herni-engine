@@ -8,8 +8,9 @@ public class player extends entita {
 
     public player(int x, int y) {
         super(x, y);
+        type = "player";
         setDefault();
-        // lives = 10;
+        openImage(type);
 
     }
 
@@ -18,6 +19,9 @@ public class player extends entita {
         strange = 1;
         lives = 10;
         size = 1;
+
+        xPozition = 25;
+        yPozition = 25;
     }
 
     public void movePlayer(keyboard keyboard) {
@@ -35,8 +39,9 @@ public class player extends entita {
         }
     }
 
+
     void catchElements() {
-        
+
     }
 
 }
