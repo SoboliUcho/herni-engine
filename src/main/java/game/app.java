@@ -2,12 +2,15 @@ package game;
 
 import entity.player;
 
+// import entity.player;
+
 public class app {
     public static void main( String[] args ){
-        window window = new window("okno");
-        player player = new player(0, 0);
+        game nGame = new game();
+        // player player = new player(25, 25);
+        // nGame.addPlayer(player);
         // while (true){
-            
+
         // }
     }
 }

@@ -1,22 +1,25 @@
 package entity;
 
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Image;
-import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 
 import javax.imageio.ImageIO;
+
+import game.game;
 
 public class entita {
     // pozition
     public int xPozition;
     public int yPozition;
     public String type;
-    int strange;
-    int size;
-    int speed;
+    public int strange;
+    public int size;
+    public int speed;
     public int lives;
-    Image image;
+    public Image image;
+    public game game;
 
     public entita(int x, int y) {
         this.xPozition = x;
@@ -49,4 +52,11 @@ public class entita {
         }
     }
 
+    public void draw(Graphics2D g2) {
+        int[] picturePozition = new int[2];
+        picturePozition[0] = xPozition * game.elementSize;
+        picturePozition[1] = yPozition * game.elementSize;
+        g2.drawImage(image, picturePozition[0], picturePozition[1], game.elementSize, game.elementSize, null);
+        g2.dispose();
+    }
 }

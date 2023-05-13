@@ -1,30 +1,22 @@
 package game;
 
-import javax.print.event.PrintEvent;
-import javax.sound.midi.VoiceStatus;
+import java.awt.Graphics2D;
+
 import javax.swing.JFrame;
 
-import entity.element;
 import entity.entita;
-import entity.player;
 
-public class window extends JFrame {
-    int elementSize;
-    int xElements;
-    int yElements;
+public class window {
     int xSize;
     int ySize;
-
-    player player;
+    int elementSize;
 
     String name;
     JFrame frame;
 
-    public window(String name) {
+    public window(String name, int yElements, int xElements,int elementSize) {
         this.name = name;
-        this.elementSize = 10;
-        this.xElements = 50;
-        this.yElements = 50;
+        this.elementSize = elementSize;
         this.xSize = elementSize * xElements;
         this.ySize = elementSize * yElements;
 
@@ -35,18 +27,23 @@ public class window extends JFrame {
         JFrame frame = new JFrame(name);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(xSize, ySize);
+        frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
-    void addPlayer (player player){
-        this.player = player;
-    }
-    void PrintEntita (entita entita){
+
+
+
+    void PrintEntita( Graphics2D g2, entita entita) {
         int[] pozicion = entita.entitaPozicion();
 
         pozicion[0] = pozicion[0] * elementSize;
         pozicion[1] = pozicion[1] * elementSize;
-        
-        
 
-        }
+    }
+
+    // @Override
+    // protected void paintComponent ( Graphics g ) {
+    //     super.paintComponent ( g );
+    // }
+
 }
