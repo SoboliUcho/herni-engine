@@ -56,6 +56,9 @@ public class entita {
         int[] picturePozition = new int[2];
         picturePozition[0] = xPozition * game.elementSize;
         picturePozition[1] = yPozition * game.elementSize;
+        System.out.print("[" + xPozition + " " + yPozition+"]");
+        System.out.print("[" + picturePozition[0] + " " + picturePozition[1]+"]");
+        // System.out.print(picturePozition[1]);
         g2.drawImage(image, picturePozition[0], picturePozition[1], game.elementSize, game.elementSize, null);
         g2.dispose();
     }

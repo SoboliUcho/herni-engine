@@ -20,8 +20,8 @@ public class player extends entita {
         lives = 10;
         size = 1;
 
-        xPozition = 25;
-        yPozition = 25;
+        // xPozition = 25;
+        // yPozition = 25;
     }
 
     public void movePlayer(keyboard keyboard) {
