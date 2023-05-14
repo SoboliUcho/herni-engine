@@ -1,6 +1,5 @@
 package entity;
 
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.io.IOException;
@@ -26,6 +25,14 @@ public class entita {
         this.yPozition = y;
         this.strange = 0;
 
+    }
+    boolean isLive (){
+        if ( lives < 1){
+            return false;
+        }
+        else{
+            return true;
+        }
     }
 
     void atack() {
@@ -56,8 +63,10 @@ public class entita {
         int[] picturePozition = new int[2];
         picturePozition[0] = xPozition * game.elementSize;
         picturePozition[1] = yPozition * game.elementSize;
+
         System.out.print("[" + xPozition + " " + yPozition+"]");
         System.out.print("[" + picturePozition[0] + " " + picturePozition[1]+"]");
+
         // System.out.print(picturePozition[1]);
         g2.drawImage(image, picturePozition[0], picturePozition[1], game.elementSize, game.elementSize, null);
         g2.dispose();

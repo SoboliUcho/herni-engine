@@ -1,6 +1,5 @@
 package game;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.Line2D;
@@ -21,9 +20,9 @@ public class game extends JPanel {//implements Runnable {
     enemy[] enemies;
 
     public game() {
-        this.xElements = 10;
-        this.yElements = 10;
-        this.elementSize = 50;
+        this.xElements = 20;
+        this.yElements = 20;
+        this.elementSize = 30;
         addPlayer();
         // Thread thread = new Thread(this);
         // thread.start();
@@ -35,7 +34,7 @@ public class game extends JPanel {//implements Runnable {
     }
 
     void addPlayer() {
-        player = new player(4, 4);
+        player = new player(9, 9);
         player.game = this;
     }
 
@@ -49,9 +48,9 @@ public class game extends JPanel {//implements Runnable {
         window.makeWindow("game", xElements, xElements, elementSize);
     }
     // @Override
-    // public void run() {
-    //     repaint();
-    // }
+    public void run() {
+        repaint();
+    }
 
     public void paint(Graphics g) {
         super.paint(g);
@@ -70,9 +69,5 @@ public class game extends JPanel {//implements Runnable {
         g2d.draw(new Line2D.Float(21.50f, 132.50f, 459.50f, 132.50f));
 
     }
-    // public void paintComponent(Graphics g) {
-    //     super.paintComponent(g);
-    //     g.setColor(Color.RED);
-    //     g.fillRect(50, 50, 100, 100);
-    //   }
+
 }

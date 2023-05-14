@@ -5,9 +5,13 @@ import game.keyboard;
 //glpat-64qafhwcij1dKBRjjpnN
 public class player extends entita {
     inventory inventory = new inventory();
+        int xDefault;
+        int yDefaul;
 
     public player(int x, int y) {
         super(x, y);
+        xDefault = x;
+        yDefaul = y;
         type = "player";
         setDefault();
         openImage(type);
@@ -20,8 +24,8 @@ public class player extends entita {
         lives = 10;
         size = 1;
 
-        // xPozition = 25;
-        // yPozition = 25;
+        xPozition = xDefault;
+        yPozition = yDefaul;
     }
 
     public void movePlayer(keyboard keyboard) {
@@ -38,7 +42,6 @@ public class player extends entita {
             xPozition = xPozition - speed;
         }
     }
-
 
     void catchElements() {
 
