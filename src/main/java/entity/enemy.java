@@ -1,27 +1,64 @@
 package entity;
 
+import java.util.Random;
+
 import game.game;
 
-public class enemy extends entita{
+public class enemy extends entita {
     int eyeshot;
-    
+
     public enemy(int x, int y, game game) {
-        super(x, y, game );
+        super(x, y, game);
+        speed = 1;
+        eyeshot = 5;
         this.type = "enemy";
         openImage(type);
     }
-    void atack (){
-        
+
+    void atack() {
+
     }
 
-    void moveEntityToPosicion(int newX, int newY) {
-        if (newX == xPozition && newY == yPozition) {
+    public void moveEntityToPlayer() {
+        Random rand = new Random();
+        int newX = xPozition;
+        int newY = yPozition;
+        if (!playerIsVisible()) {
             return;
         }
-        int x = newX - xPozition;
-        int y = newY - yPozition;
-        int vector = (int) Math.sqrt((y * y) + (x * x));
-        int k = vector / speed;
-        // TODO udělat vypočet pohybu
+        if (xPozition == game.player.xPozition && yPozition == game.player.yPozition) {
+            return;
+        }
+        if (game.player.xPozition + game.elementSize< xPozition) {
+            newX = xPozition - speed + rand.nextInt(2)-1;
+        }
+        if (game.player.xPozition + game.elementSize> xPozition) {
+            newX = xPozition + speed + rand.nextInt(2)-1;
+        }
+        if (game.player.yPozition + game.elementSize< yPozition) {
+            newY = yPozition - speed + rand.nextInt(2)-1;
+        }
+        if (game.player.yPozition +game.elementSize > yPozition) {
+            newY = yPozition + speed + rand.nextInt(2)-1;
+        }
+        xPozition = newX;
+        yPozition = newY;
+    }
+
+    public boolean playerIsVisible() {
+        int range = eyeshot * game.elementSize;
+
+        if (game.player.xPozition < xPozition + range) {
+            if (game.player.xPozition > xPozition - range) {
+                if (game.player.yPozition < yPozition + range) {
+                    if (game.player.yPozition > yPozition - range) {
+                        return true;
+                    }
+                }
+            }
+
+        }
+
+        return false;
     }
 }

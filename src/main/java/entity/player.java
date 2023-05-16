@@ -21,7 +21,7 @@ public class player extends entita {
     }
 
     public void setDefault() {
-        speed = 1;
+        speed = 2;
         strange = 1;
         lives = 10;
         size = 1;
@@ -32,10 +32,10 @@ public class player extends entita {
 
     public void movePlayer() {
         if (keyboard.upIsPress) {
-            yPozition = yPozition + speed;
+            yPozition = yPozition - speed;
         }
         if (keyboard.downIsPress) {
-            yPozition = yPozition - speed;
+            yPozition = yPozition + speed;
         }
         if (keyboard.rightIsPress) {
             xPozition = xPozition + speed;
@@ -48,5 +48,5 @@ public class player extends entita {
     void catchElements() {
 
     }
-
+    
 }

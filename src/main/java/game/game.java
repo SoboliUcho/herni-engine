@@ -24,9 +24,9 @@ public class game extends JPanel implements Runnable {
     public level level;
     public keyboard keyboard;
     public window window;
-    Thread thread;
+    public Thread thread;
 
-    player player;
+    public player player;
     enemy[] enemies;
 
     public game() {
@@ -36,10 +36,10 @@ public class game extends JPanel implements Runnable {
         this.timePerFrame = 1_000_000_000 / FPS;
 
         keyboard = new keyboard();
-        level = new level(levelNumber,this);
+        level = new level(levelNumber, this);
+        level.loadLevel();
         // addPlayer();
-        thread = new Thread(this);
-        thread.start();
+        // thread = new Thread(this);
     }
 
     void addPlayer(entity.player player) {
@@ -47,12 +47,12 @@ public class game extends JPanel implements Runnable {
         player.game = this;
     }
 
-    public void addEnemys(enemy [] enemy) {
+    public void addEnemys(enemy[] enemy) {
         this.enemies = enemy;
     }
 
-    public void addPlayer() {
-        player = new player(9, 9, this, keyboard);
+    public void addPlayer(int x, int y) {
+        player = new player(x, y, this, keyboard);
         player.game = this;
     }
 
@@ -66,12 +66,12 @@ public class game extends JPanel implements Runnable {
         window.makeWindow("game", xElements, xElements, elementSize, keyboard);
     }
 
-    void frameCount( long timethread) {
+    void frameCount(long timethread) {
         curentTime = System.nanoTime();
         if (frame == 30) {
             frame = 1;
             timethread = System.currentTimeMillis() - timethread;
-            System.out.println(timethread);
+            // System.out.println(timethread);
         } else {
             frame = frame + 1;
         }
@@ -96,8 +96,11 @@ public class game extends JPanel implements Runnable {
         // drawLines(g);
         for (enemy enemy : enemies) {
             enemy.draw(g2);
+            // System.out.println(enemy.playerIsVisible());
         }
         player.draw(g2);
+        
+
     }
 
     void drawLines(Graphics g) {
@@ -111,15 +114,19 @@ public class game extends JPanel implements Runnable {
 
     }
 
-    void updatePozicion(){
-        player.movePlayer();
+    void updatePozicion() {
+        for (enemy enemy : enemies) {
+            // System.out.println(enemy.entitaPozicion()[0] +", " + enemy.entitaPozicion()[1]);
+            enemy.moveEntityToPlayer();
+        }
+        player.moveRandom();
     }
 
     @Override
     public void run() {
-        level.loadLevel();
+        // level.loadLevel();
         while (true) {
-        // while (frame < 30) {
+            // while (frame < 20) {
             long timethread = System.currentTimeMillis();
             // System.out.println(timethread);
 

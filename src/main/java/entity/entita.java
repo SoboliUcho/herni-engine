@@ -3,6 +3,7 @@ package entity;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.io.IOException;
+import java.util.Random;
 
 import javax.imageio.ImageIO;
 
@@ -20,11 +21,16 @@ public class entita {
     public Image image;
     public game game;
 
+    int xX;
+    int yY;
+
     public entita(int x, int y, game game) {
         this.game = game;
         this.xPozition = x * this.game.elementSize;
         this.yPozition = y * this.game.elementSize;
         this.strange = 0;
+        this.xX = xPozition;
+        this.yY = yPozition;
 
     }
 
@@ -74,5 +80,43 @@ public class entita {
         g2.drawImage(image, xPozition, yPozition, game.elementSize, game.elementSize, null);
 
         // g2.dispose();
+    }
+
+    void Randompozicion() {
+        Random rand = new Random();
+        xX = rand.nextInt(600);
+        yY = rand.nextInt(600);
+        System.out.println(xX);
+        System.out.println(yY);
+    }
+
+    public void moveRandom() {
+
+        int newX = xPozition;
+        int newY = yPozition;
+        System.out.println(xX);
+        System.out.println(yY);
+
+        if (xPozition >  xX-speed && xPozition <  xX+speed) {
+            Randompozicion();
+        }
+        if (yPozition >  yY-speed && yPozition <  yY+speed) {
+            Randompozicion();
+        }
+
+        if (xX < xPozition) {
+            newX = xPozition - speed;
+        }
+        if (xX > xPozition) {
+            newX = xPozition + speed;
+        }
+        if (yY < yPozition) {
+            newY = yPozition - speed;
+        }
+        if (yY > yPozition) {
+            newY = yPozition + speed;
+        }
+        xPozition = newX;
+        yPozition = newY;
     }
 }

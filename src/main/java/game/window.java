@@ -27,7 +27,8 @@ public class window {
         this.keyboard = keyboard;
         openWindow();
 
-        System.out.println("window size: x " + xSize + " y " + ySize);
+        System.out.println("window size: x " + xSize + " y " + ySize + " was made");
+
     }
 
     void openWindow() {
@@ -40,6 +41,8 @@ public class window {
         frame.setResizable(false);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
+        // curentGame.thread.start();
+
     }
 
     // void PrintEntita( Graphics2D g2, entita entita) {
