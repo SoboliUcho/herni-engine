@@ -3,8 +3,7 @@ package game;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-
-public class keyboard implements KeyListener{
+public class keyboard implements KeyListener {
     public boolean upIsPress,
             downIsPress,
             leftIsPress,
@@ -13,8 +12,8 @@ public class keyboard implements KeyListener{
             spaceIsPress,
             fIsPress,
             escIsPress,
-            enterIsPress, 
-            iIsPress= false;
+            enterIsPress,
+            iIsPress = false;
 
     @Override
     public void keyTyped(KeyEvent e) {
@@ -25,33 +24,53 @@ public class keyboard implements KeyListener{
         int code = e.getKeyCode();
         if (code == KeyEvent.VK_W) {
             upIsPress = true;
+            System.out.print("Up: ");
+            System.out.println(upIsPress);
         }
         if (code == KeyEvent.VK_A) {
             leftIsPress = true;
+            System.out.print("Left: ");
+            System.out.println(leftIsPress);
         }
         if (code == KeyEvent.VK_S) {
             downIsPress = true;
+            System.out.print("Down: ");
+            System.out.println(downIsPress);
         }
         if (code == KeyEvent.VK_D) {
             rightIsPress = true;
+            System.out.print("Right: ");
+            System.out.println(rightIsPress);
         }
         if (code == KeyEvent.VK_SHIFT) {
             shiftIsPress = true;
+            System.out.print("Shift: ");
+            System.out.println(shiftIsPress);
         }
         if (code == KeyEvent.VK_SPACE) {
             spaceIsPress = true;
+            System.out.print("Space: ");
+            System.out.println(spaceIsPress);
         }
         if (code == KeyEvent.VK_F) {
             fIsPress = true;
+            System.out.print("F: ");
+            System.out.println(fIsPress);
         }
         if (code == KeyEvent.VK_ENTER) {
             enterIsPress = true;
+            System.out.print("Enter: ");
+            System.out.println(enterIsPress);
         }
         if (code == KeyEvent.VK_ESCAPE) {
             escIsPress = true;
+            System.out.print("Esc: ");
+            System.out.println(escIsPress);
         }
         if (code == KeyEvent.VK_I) {
             iIsPress = true;
+            System.out.print("I: ");
+            System.out.println(iIsPress);
         }
     }
 
@@ -59,34 +78,58 @@ public class keyboard implements KeyListener{
     public void keyReleased(KeyEvent e) {
         int code = e.getKeyCode();
         if (code == KeyEvent.VK_W) {
-            upIsPress =  false;
+            upIsPress = false;
         }
         if (code == KeyEvent.VK_A) {
-            leftIsPress =  false;
+            leftIsPress = false;
         }
         if (code == KeyEvent.VK_S) {
-            downIsPress =  false;
+            downIsPress = false;
         }
         if (code == KeyEvent.VK_D) {
-            rightIsPress =  false;
+            rightIsPress = false;
         }
         if (code == KeyEvent.VK_SHIFT) {
-            shiftIsPress =  false;
+            shiftIsPress = false;
         }
         if (code == KeyEvent.VK_SPACE) {
-            spaceIsPress =  false;
+            spaceIsPress = false;
         }
         if (code == KeyEvent.VK_F) {
-            fIsPress =  false;
+            fIsPress = false;
         }
         if (code == KeyEvent.VK_ENTER) {
-            enterIsPress =  false;
+            enterIsPress = false;
         }
         if (code == KeyEvent.VK_ESCAPE) {
-            escIsPress =  false;
+            escIsPress = false;
         }
         if (code == KeyEvent.VK_I) {
-            iIsPress =  false;
+            iIsPress = false;
         }
+    }
+
+    public void print() {
+        System.out.println();
+        System.out.print("Key States - Up: ");
+        System.out.print(upIsPress);
+        System.out.print(", Down: ");
+        System.out.print(downIsPress);
+        System.out.print(", Left: ");
+        System.out.print(leftIsPress);
+        System.out.print(", Right: ");
+        System.out.print(rightIsPress);
+        System.out.print(", Shift: ");
+        System.out.print(shiftIsPress);
+        System.out.print(", Space: ");
+        System.out.print(spaceIsPress);
+        System.out.print(", F: ");
+        System.out.print(fIsPress);
+        System.out.print(", Esc: ");
+        System.out.print(escIsPress);
+        System.out.print(", Enter: ");
+        System.out.print(enterIsPress);
+        System.out.print(", I: ");
+        System.out.println(iIsPress);
     }
 }

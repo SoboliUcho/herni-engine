@@ -1,15 +1,17 @@
 package entity;
 
+import game.game;
+
 public class enemy extends entita{
     int eyeshot;
     
-    public enemy(int x, int y) {
-        super(x, y);
-        
-        //TODO Auto-generated constructor stub
+    public enemy(int x, int y, game game) {
+        super(x, y, game );
+        this.type = "enemy";
+        openImage(type);
     }
     void atack (){
-
+        
     }
 
     void moveEntityToPosicion(int newX, int newY) {

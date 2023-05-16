@@ -20,17 +20,18 @@ public class entita {
     public Image image;
     public game game;
 
-    public entita(int x, int y) {
-        this.xPozition = x;
-        this.yPozition = y;
+    public entita(int x, int y, game game) {
+        this.game = game;
+        this.xPozition = x * this.game.elementSize;
+        this.yPozition = y * this.game.elementSize;
         this.strange = 0;
 
     }
-    boolean isLive (){
-        if ( lives < 1){
+
+    boolean isLive() {
+        if (lives < 1) {
             return false;
-        }
-        else{
+        } else {
             return true;
         }
     }
@@ -60,15 +61,18 @@ public class entita {
     }
 
     public void draw(Graphics2D g2) {
-        int[] picturePozition = new int[2];
-        picturePozition[0] = xPozition * game.elementSize;
-        picturePozition[1] = yPozition * game.elementSize;
+        // int[] picturePozition = new int[2];
+        // picturePozition[0] = xPozition * game.elementSize;
+        // picturePozition[1] = yPozition * game.elementSize;
 
-        System.out.print("[" + xPozition + " " + yPozition+"]");
-        System.out.print("[" + picturePozition[0] + " " + picturePozition[1]+"]");
+        System.out.println(type + " [" + xPozition + " " + yPozition + "]");
+        // System.out.println("[" + picturePozition[0] + " " + picturePozition[1]+"]");
 
         // System.out.print(picturePozition[1]);
-        g2.drawImage(image, picturePozition[0], picturePozition[1], game.elementSize, game.elementSize, null);
-        g2.dispose();
+        // g2.drawImage(image, picturePozition[0], picturePozition[1], game.elementSize,
+        // game.elementSize, null);
+        g2.drawImage(image, xPozition, yPozition, game.elementSize, game.elementSize, null);
+
+        // g2.dispose();
     }
 }

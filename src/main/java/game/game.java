@@ -4,28 +4,42 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.Line2D;
 
-// import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import entity.enemy;
 import entity.player;
 
-public class game extends JPanel {//implements Runnable {
+public class game extends JPanel implements Runnable {
     public int xElements;
     public int yElements;
     public int elementSize;
+
+    public int FPS = 60;
+    long timePerFrame;
+    long startTime;
+    long curentTime;
+    int frame = 0;
+
+    int levelNumber;
+    public level level;
+    public keyboard keyboard;
     public window window;
+    Thread thread;
 
     player player;
     enemy[] enemies;
 
     public game() {
-        this.xElements = 20;
-        this.yElements = 20;
-        this.elementSize = 30;
-        addPlayer();
-        // Thread thread = new Thread(this);
-        // thread.start();
+        this.xElements = 30;
+        this.yElements = 30;
+        this.elementSize = 20;
+        this.timePerFrame = 1_000_000_000 / FPS;
+
+        keyboard = new keyboard();
+        level = new level(levelNumber,this);
+        // addPlayer();
+        thread = new Thread(this);
+        thread.start();
     }
 
     void addPlayer(entity.player player) {
@@ -33,8 +47,12 @@ public class game extends JPanel {//implements Runnable {
         player.game = this;
     }
 
-    void addPlayer() {
-        player = new player(9, 9);
+    public void addEnemys(enemy [] enemy) {
+        this.enemies = enemy;
+    }
+
+    public void addPlayer() {
+        player = new player(9, 9, this, keyboard);
         player.game = this;
     }
 
@@ -43,19 +61,42 @@ public class game extends JPanel {//implements Runnable {
         makeWindow();
     }
 
-    void makeWindow(){
+    void makeWindow() {
         // System.out.println(window);
-        window.makeWindow("game", xElements, xElements, elementSize);
+        window.makeWindow("game", xElements, xElements, elementSize, keyboard);
     }
-    // @Override
-    public void run() {
-        repaint();
+
+    void frameCount( long timethread) {
+        curentTime = System.nanoTime();
+        if (frame == 30) {
+            frame = 1;
+            timethread = System.currentTimeMillis() - timethread;
+            System.out.println(timethread);
+        } else {
+            frame = frame + 1;
+        }
+        // System.out.println(frame);
+    }
+
+    void threadSleepTime() {
+        long sleepTime = timePerFrame - (curentTime - startTime);
+        if (sleepTime > 0) {
+            // System.out.println("sleep " + sleepTime);
+            try {
+                Thread.sleep(sleepTime / 1000000, (int) (sleepTime % 1000000));
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public void paint(Graphics g) {
         super.paint(g);
         Graphics2D g2 = (Graphics2D) g;
         // drawLines(g);
+        for (enemy enemy : enemies) {
+            enemy.draw(g2);
+        }
         player.draw(g2);
     }
 
@@ -70,4 +111,27 @@ public class game extends JPanel {//implements Runnable {
 
     }
 
+    void updatePozicion(){
+        player.movePlayer();
+    }
+
+    @Override
+    public void run() {
+        level.loadLevel();
+        while (true) {
+        // while (frame < 30) {
+            long timethread = System.currentTimeMillis();
+            // System.out.println(timethread);
+
+            startTime = System.nanoTime();
+            // keyboard.print();
+            updatePozicion();
+            repaint();
+
+            frameCount(timethread);
+            curentTime = System.nanoTime();
+            threadSleepTime();
+
+        }
+    }
 }

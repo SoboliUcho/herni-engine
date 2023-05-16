@@ -7,25 +7,26 @@ public class window {
     int xSize;
     int ySize;
     int elementSize;
+    keyboard keyboard;
 
     String name;
-    game nGame;
+    game curentGame;
     JFrame frame;
 
     public window() {
-        nGame = new game();
-        nGame.window = this;
-        nGame.makeWindow();
+        curentGame = new game();
+        curentGame.window = this;
+        curentGame.makeWindow();
     }
 
-    void makeWindow(String name, int xElements, int yElements, int elementSize) {
+    void makeWindow(String name, int xElements, int yElements, int elementSize, keyboard keyboard) {
         this.name = name;
         this.elementSize = elementSize;
         this.xSize = elementSize * xElements;
         this.ySize = elementSize * yElements;
-
+        this.keyboard = keyboard;
         openWindow();
-        
+
         System.out.println("window size: x " + xSize + " y " + ySize);
     }
 
@@ -33,7 +34,8 @@ public class window {
         frame = new JFrame(name);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().setPreferredSize(new Dimension(xSize, ySize));
-        frame.add(nGame);
+        frame.add(curentGame);
+        frame.addKeyListener(keyboard);
         frame.pack();
         frame.setResizable(false);
         frame.setLocationRelativeTo(null);

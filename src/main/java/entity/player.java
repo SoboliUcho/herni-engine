@@ -1,21 +1,23 @@
 package entity;
 
 import game.keyboard;
+import game.game;
 
 //glpat-64qafhwcij1dKBRjjpnN
 public class player extends entita {
     inventory inventory = new inventory();
-        int xDefault;
-        int yDefaul;
+    int xDefault;
+    int yDefaul;
+    keyboard keyboard;
 
-    public player(int x, int y) {
-        super(x, y);
+    public player(int x, int y, game game, keyboard keyboard) {
+        super(x, y, game);
         xDefault = x;
         yDefaul = y;
         type = "player";
+        this.keyboard = keyboard;
         setDefault();
         openImage(type);
-
     }
 
     public void setDefault() {
@@ -28,7 +30,7 @@ public class player extends entita {
         yPozition = yDefaul;
     }
 
-    public void movePlayer(keyboard keyboard) {
+    public void movePlayer() {
         if (keyboard.upIsPress) {
             yPozition = yPozition + speed;
         }
