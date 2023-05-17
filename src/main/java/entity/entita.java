@@ -21,6 +21,9 @@ public class entita {
     public Image image;
     public game game;
 
+    static Image attackImage;
+
+    int secondsCounter = 0;
     int xX;
     int yY;
 
@@ -42,8 +45,12 @@ public class entita {
         }
     }
 
-    void atack() {
-        // TODO atack
+    public void atack(Graphics2D g2) {
+        if (game.keyboard.spaceIsPress) {
+            int pozicion = game.elementSize / 2;
+            g2.drawImage(attackImage, xPozition - pozicion, yPozition - pozicion, game.elementSize * 2,
+                    game.elementSize * 2, null);
+        }
     }
 
     void makeDamage(entita entita) {
@@ -53,6 +60,17 @@ public class entita {
     public int[] entitaPozicion() {
         int[] pozicion = { xPozition, yPozition };
         return pozicion;
+    }
+
+    public void openAttackImage() {
+        String fullname = "/img/attack.png";
+        try {
+            attackImage = ImageIO.read(getClass().getResourceAsStream(fullname));
+            System.out.println("successful image uploaded of Attack");
+            // System.out.println();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void openImage(String name) {
@@ -67,40 +85,34 @@ public class entita {
     }
 
     public void draw(Graphics2D g2) {
-        // int[] picturePozition = new int[2];
-        // picturePozition[0] = xPozition * game.elementSize;
-        // picturePozition[1] = yPozition * game.elementSize;
+        System.out.println(type + " [" + xPozition + ", " + yPozition + "]");
 
-        System.out.println(type + " [" + xPozition + " " + yPozition + "]");
-        // System.out.println("[" + picturePozition[0] + " " + picturePozition[1]+"]");
-
-        // System.out.print(picturePozition[1]);
-        // g2.drawImage(image, picturePozition[0], picturePozition[1], game.elementSize,
-        // game.elementSize, null);
         g2.drawImage(image, xPozition, yPozition, game.elementSize, game.elementSize, null);
 
         // g2.dispose();
     }
 
     void Randompozicion() {
+
         Random rand = new Random();
         xX = rand.nextInt(600);
         yY = rand.nextInt(600);
-        System.out.println(xX);
-        System.out.println(yY);
+        System.out.println("new random pozition: [" + xX + ", " + yY + "]");
+        // System.out.println(xX);
+        // System.out.println(yY);
     }
 
     public void moveRandom() {
 
         int newX = xPozition;
         int newY = yPozition;
-        System.out.println(xX);
-        System.out.println(yY);
+        // System.out.println(xX);
+        // System.out.println(yY);
 
-        if (xPozition >  xX-speed && xPozition <  xX+speed) {
+        if (xPozition > xX - speed && xPozition < xX + speed) {
             Randompozicion();
         }
-        if (yPozition >  yY-speed && yPozition <  yY+speed) {
+        if (yPozition > yY - speed && yPozition < yY + speed) {
             Randompozicion();
         }
 
@@ -118,5 +130,36 @@ public class entita {
         }
         xPozition = newX;
         yPozition = newY;
+    }
+
+    void hitWall(int previousX, int previousY) {
+
+        for (wall wall : game.walls) {
+            for (int[] pozicion : wall.wallPoints) {
+                int useX = pozicion[0] * game.elementSize;
+                int usey = pozicion[1] * game.elementSize;
+                if (xPozition >= useX-game.elementSize && xPozition <= useX +game.elementSize && yPozition >= usey-game.elementSize&& yPozition <= usey+game.elementSize) {
+                    xPozition = previousX;
+                    yPozition = previousY;
+                    System.out.println(" colizion at: [" + useX + ", " + usey + "]");
+                    // System.exit(0);
+                }
+
+            }
+        }
+    }
+
+    boolean waitTime (float seconds){
+        int frames = (secondsCounter * game.FPS) + game.frame;
+        if ( frames == (int)(seconds*game.FPS)){
+            secondsCounter = 0;
+            return true;
+        }
+        else{
+            if (game.frame == 0){
+                secondsCounter +=1; 
+            }
+            return false;
+        }
     }
 }

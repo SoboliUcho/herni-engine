@@ -1,7 +1,7 @@
 package entity;
 
 public class inventory {
-    element[] inventory = new element[20];
+    element[] inventory = new element[10];
 
     public inventory() {
         for (element i : inventory) {
@@ -17,4 +17,6 @@ public class inventory {
             }
         }
     }
+
+    
 }

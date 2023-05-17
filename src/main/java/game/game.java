@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 
 import entity.enemy;
 import entity.player;
+import entity.wall;
 
 public class game extends JPanel implements Runnable {
     public int xElements;
@@ -18,7 +19,7 @@ public class game extends JPanel implements Runnable {
     long timePerFrame;
     long startTime;
     long curentTime;
-    int frame = 0;
+    public int frame = 0;
 
     int levelNumber;
     public level level;
@@ -28,6 +29,8 @@ public class game extends JPanel implements Runnable {
 
     public player player;
     enemy[] enemies;
+    public wall[] walls;
+    // wall[] sideWalls;
 
     public game() {
         this.xElements = 30;
@@ -56,6 +59,23 @@ public class game extends JPanel implements Runnable {
         player.game = this;
     }
 
+    public void addWalls(wall[] walles) {
+        if (this.walls == null) {
+            this.walls = walles;
+        } else {
+            wall[] temporeWalls = new wall[this.walls.length + walles.length];
+            for (int i = 0; i < this.walls.length; i++) {
+                temporeWalls[i] = this.walls[i];
+            }
+            for (int i = 0; i < walles.length; i++){
+                temporeWalls[i+this.walls.length] = walles[i];
+            }
+            this.walls = temporeWalls;
+        }
+        
+    }
+
+
     void addWindow(window window) {
         this.window = window;
         makeWindow();
@@ -68,7 +88,7 @@ public class game extends JPanel implements Runnable {
 
     void frameCount(long timethread) {
         curentTime = System.nanoTime();
-        if (frame == 30) {
+        if (frame == FPS) {
             frame = 1;
             timethread = System.currentTimeMillis() - timethread;
             // System.out.println(timethread);
@@ -93,40 +113,36 @@ public class game extends JPanel implements Runnable {
     public void paint(Graphics g) {
         super.paint(g);
         Graphics2D g2 = (Graphics2D) g;
-        // drawLines(g);
+
         for (enemy enemy : enemies) {
             enemy.draw(g2);
             // System.out.println(enemy.playerIsVisible());
         }
+
+        for (wall wall : walls) {
+            wall.paintWall(g2);
+        }
+        player.atack(g2);
         player.draw(g2);
-        
-
-    }
-
-    void drawLines(Graphics g) {
-        Graphics2D g2d = (Graphics2D) g;
-
-        g2d.drawLine(120, 50, 360, 50);
-
-        g2d.draw(new Line2D.Double(59.2d, 99.8d, 419.1d, 99.8d));
-
-        g2d.draw(new Line2D.Float(21.50f, 132.50f, 459.50f, 132.50f));
 
     }
 
     void updatePozicion() {
         for (enemy enemy : enemies) {
-            // System.out.println(enemy.entitaPozicion()[0] +", " + enemy.entitaPozicion()[1]);
+            // System.out.println(enemy.entitaPozicion()[0] +", " +
+            // enemy.entitaPozicion()[1]);
             enemy.moveEntityToPlayer();
         }
-        player.moveRandom();
+
+        player.movePlayer();
+        // player.moveRandom();
     }
 
     @Override
     public void run() {
         // level.loadLevel();
         while (true) {
-            // while (frame < 20) {
+            // while (frame < 1) {
             long timethread = System.currentTimeMillis();
             // System.out.println(timethread);
 

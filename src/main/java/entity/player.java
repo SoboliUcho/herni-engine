@@ -5,19 +5,21 @@ import game.game;
 
 //glpat-64qafhwcij1dKBRjjpnN
 public class player extends entita {
-    inventory inventory = new inventory();
+    inventory inventory;
     int xDefault;
-    int yDefaul;
+    int yDefault;
     keyboard keyboard;
 
     public player(int x, int y, game game, keyboard keyboard) {
         super(x, y, game);
-        xDefault = x;
-        yDefaul = y;
+        xDefault = x * game.elementSize;
+        yDefault = y * game.elementSize;
         type = "player";
         this.keyboard = keyboard;
+        inventory = new inventory();
         setDefault();
         openImage(type);
+        openAttackImage();
     }
 
     public void setDefault() {
@@ -27,10 +29,13 @@ public class player extends entita {
         size = 1;
 
         xPozition = xDefault;
-        yPozition = yDefaul;
+        yPozition = yDefault;
     }
 
     public void movePlayer() {
+        int previousX = xPozition;
+        int previousY = yPozition;
+
         if (keyboard.upIsPress) {
             yPozition = yPozition - speed;
         }
@@ -43,10 +48,18 @@ public class player extends entita {
         if (keyboard.leftIsPress) {
             xPozition = xPozition - speed;
         }
+        hitWall(previousX, previousY);
     }
-
+    
     void catchElements() {
 
+    }
+    public void addLives(int quantity){
+        this.lives += quantity;
+    }
+
+    public void addStrange(int quantity){
+        this.strange = quantity;
     }
     
 }

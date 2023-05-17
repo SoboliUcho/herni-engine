@@ -23,10 +23,15 @@ public class enemy extends entita {
         Random rand = new Random();
         int newX = xPozition;
         int newY = yPozition;
+        int previousX = xPozition;
+        int previousY = yPozition;
         if (!playerIsVisible()) {
             return;
         }
-        if (xPozition == game.player.xPozition && yPozition == game.player.yPozition) {
+        // if (xPozition == game.player.xPozition && yPozition == game.player.yPozition) {
+        //     return;
+        // }
+        if (xPozition >= game.player.xPozition-game.elementSize && xPozition <= game.player.xPozition +game.elementSize && yPozition >= game.player.yPozition-game.elementSize&& yPozition <= game.player.yPozition+game.elementSize) {
             return;
         }
         if (game.player.xPozition + game.elementSize< xPozition) {
@@ -43,6 +48,7 @@ public class enemy extends entita {
         }
         xPozition = newX;
         yPozition = newY;
+        hitWall(previousX, previousY);
     }
 
     public boolean playerIsVisible() {
