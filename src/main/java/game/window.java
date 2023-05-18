@@ -22,8 +22,8 @@ public class window {
     void makeWindow(String name, int xElements, int yElements, int elementSize, keyboard keyboard) {
         this.name = name;
         this.elementSize = elementSize;
-        this.xSize = elementSize * xElements;
-        this.ySize = elementSize * yElements;
+        this.xSize = elementSize * xElements +2* curentGame.elementSize;
+        this.ySize = elementSize * yElements + 2* curentGame.elementSize;
         this.keyboard = keyboard;
         openWindow();
 

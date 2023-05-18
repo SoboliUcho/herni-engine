@@ -2,7 +2,6 @@ package game;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.geom.Line2D;
 
 import javax.swing.JPanel;
 
@@ -67,14 +66,13 @@ public class game extends JPanel implements Runnable {
             for (int i = 0; i < this.walls.length; i++) {
                 temporeWalls[i] = this.walls[i];
             }
-            for (int i = 0; i < walles.length; i++){
-                temporeWalls[i+this.walls.length] = walles[i];
+            for (int i = 0; i < walles.length; i++) {
+                temporeWalls[i + this.walls.length] = walles[i];
             }
             this.walls = temporeWalls;
         }
-        
-    }
 
+    }
 
     void addWindow(window window) {
         this.window = window;
@@ -124,7 +122,8 @@ public class game extends JPanel implements Runnable {
         }
         player.atack(g2);
         player.draw(g2);
-
+        player.inventory.drawInventory(g2);
+        player.lifeBar.drawLifeBar(g2);
     }
 
     void updatePozicion() {
@@ -134,15 +133,15 @@ public class game extends JPanel implements Runnable {
             enemy.moveEntityToPlayer();
         }
 
-        player.movePlayer();
-        // player.moveRandom();
+        // player.movePlayer();
+        player.moveRandom();
     }
 
     @Override
     public void run() {
         // level.loadLevel();
-        while (true) {
-            // while (frame < 1) {
+        // while (true) {
+            while (frame < 1) {
             long timethread = System.currentTimeMillis();
             // System.out.println(timethread);
 

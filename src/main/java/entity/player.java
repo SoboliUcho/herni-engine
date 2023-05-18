@@ -1,14 +1,17 @@
 package entity;
 
 import game.keyboard;
+import game.lifeBar;
+
 import game.game;
 
 //glpat-64qafhwcij1dKBRjjpnN
 public class player extends entita {
-    inventory inventory;
+    public inventory inventory;
     int xDefault;
     int yDefault;
     keyboard keyboard;
+    public lifeBar lifeBar;
 
     public player(int x, int y, game game, keyboard keyboard) {
         super(x, y, game);
@@ -16,7 +19,8 @@ public class player extends entita {
         yDefault = y * game.elementSize;
         type = "player";
         this.keyboard = keyboard;
-        inventory = new inventory();
+        inventory = new inventory(this);
+        lifeBar = new lifeBar(this);
         setDefault();
         openImage(type);
         openAttackImage();
@@ -50,16 +54,17 @@ public class player extends entita {
         }
         hitWall(previousX, previousY);
     }
-    
+
     void catchElements() {
 
     }
-    public void addLives(int quantity){
+
+    public void addLives(int quantity) {
         this.lives += quantity;
     }
 
-    public void addStrange(int quantity){
+    public void addStrange(int quantity) {
         this.strange = quantity;
     }
-    
+
 }
