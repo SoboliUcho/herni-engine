@@ -15,6 +15,7 @@ public class entita {
     public int yPozition;
     public String type;
     public int strange;
+    public int range;
     public int size;
     public int speed;
     public int lives;
@@ -34,6 +35,7 @@ public class entita {
         this.strange = 0;
         this.xX = xPozition;
         this.yY = yPozition;
+        this.range = 3;
 
     }
 
@@ -47,9 +49,9 @@ public class entita {
 
     public void atack(Graphics2D g2) {
         if (game.keyboard.spaceIsPress) {
-            int pozicion = game.elementSize / 2;
-            g2.drawImage(attackImage, xPozition - pozicion, yPozition - pozicion, game.elementSize * 2,
-                    game.elementSize * 2, null);
+            int pozicion = game.elementSize / (range/2);
+            g2.drawImage(attackImage, xPozition - pozicion, yPozition - pozicion, game.elementSize * range,
+                    game.elementSize * range, null);
         }
     }
 

@@ -6,6 +6,7 @@ import java.awt.Graphics2D;
 import javax.swing.JPanel;
 
 import entity.enemy;
+import entity.inventory;
 import entity.player;
 import entity.wall;
 
@@ -29,6 +30,7 @@ public class game extends JPanel implements Runnable {
     public player player;
     enemy[] enemies;
     public wall[] walls;
+    public inventory gamInventory;
     // wall[] sideWalls;
 
     public game() {
@@ -112,6 +114,8 @@ public class game extends JPanel implements Runnable {
         super.paint(g);
         Graphics2D g2 = (Graphics2D) g;
 
+        gamInventory.drawItems(g2);
+
         for (enemy enemy : enemies) {
             enemy.draw(g2);
             // System.out.println(enemy.playerIsVisible());
@@ -122,6 +126,7 @@ public class game extends JPanel implements Runnable {
         }
         player.atack(g2);
         player.draw(g2);
+        player.catchElements();
         player.inventory.drawInventory(g2);
         player.lifeBar.drawLifeBar(g2);
     }
@@ -132,16 +137,16 @@ public class game extends JPanel implements Runnable {
             // enemy.entitaPozicion()[1]);
             enemy.moveEntityToPlayer();
         }
-
-        // player.movePlayer();
-        player.moveRandom();
+        
+        player.movePlayer();
+        // player.moveRandom();
     }
 
     @Override
     public void run() {
         // level.loadLevel();
-        // while (true) {
-            while (frame < 1) {
+        while (true) {
+            // while (frame < 1) {
             long timethread = System.currentTimeMillis();
             // System.out.println(timethread);
 

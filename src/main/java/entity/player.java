@@ -29,7 +29,7 @@ public class player extends entita {
     public void setDefault() {
         speed = 2;
         strange = 1;
-        lives = 10;
+        lives = 5;
         size = 1;
 
         xPozition = xDefault;
@@ -55,8 +55,14 @@ public class player extends entita {
         hitWall(previousX, previousY);
     }
 
-    void catchElements() {
-
+    public void catchElements() {
+        // for (int i = 0; i< game.gameInventory.length; i++) {
+        //     int rangeReal = range * game.elementSize;
+        //     if (inventory.inventory[i].xPozition > rangeReal && inventory.inventory[i].xPozition < (rangeReal + game.elementSize) ){
+        //         System.out.println("chyť mě");
+        //         //TODO game inventory reach
+        //     }
+        // }
     }
 
     public void addLives(int quantity) {
