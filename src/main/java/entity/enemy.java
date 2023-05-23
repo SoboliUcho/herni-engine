@@ -16,7 +16,7 @@ public class enemy extends entita {
     }
 
     void atack() {
-
+        
     }
 
     public void moveEntityToPlayer() {

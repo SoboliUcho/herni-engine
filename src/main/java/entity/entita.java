@@ -23,6 +23,7 @@ public class entita {
     public game game;
 
     static Image attackImage;
+    static Image catchImage;
 
     int secondsCounter = 0;
     int xX;
@@ -35,7 +36,7 @@ public class entita {
         this.strange = 0;
         this.xX = xPozition;
         this.yY = yPozition;
-        this.range = 3;
+        this.range = 2;
 
     }
 
@@ -47,11 +48,13 @@ public class entita {
         }
     }
 
-    public void atack(Graphics2D g2) {
+    public void atackAction(Graphics2D g2) {
         if (game.keyboard.spaceIsPress) {
-            int pozicion = game.elementSize / (range/2);
-            g2.drawImage(attackImage, xPozition - pozicion, yPozition - pozicion, game.elementSize * range,
-                    game.elementSize * range, null);
+            int pozicion = game.elementSize;
+            int x = xPozition - ((game.elementSize * range) / 2) + game.elementSize / 2;
+            int y = yPozition - ((game.elementSize * range) / 2) + game.elementSize / 2;
+            g2.drawImage(attackImage, x, y, game.elementSize * range, game.elementSize * range, null);
+
         }
     }
 
@@ -69,7 +72,16 @@ public class entita {
         try {
             attackImage = ImageIO.read(getClass().getResourceAsStream(fullname));
             System.out.println("successful image uploaded of Attack");
-            // System.out.println();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void openCatchImage() {
+        String fullname = "/img/catch.png";
+        try {
+            catchImage = ImageIO.read(getClass().getResourceAsStream(fullname));
+            System.out.println("successful image uploaded of Attack");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -87,7 +99,7 @@ public class entita {
     }
 
     public void draw(Graphics2D g2) {
-        System.out.println(type + " [" + xPozition + ", " + yPozition + "]");
+        // System.out.println(type + " [" + xPozition + ", " + yPozition + "]");
 
         g2.drawImage(image, xPozition, yPozition, game.elementSize, game.elementSize, null);
 
@@ -140,26 +152,25 @@ public class entita {
             for (int[] pozicion : wall.wallPoints) {
                 int useX = pozicion[0] * game.elementSize;
                 int usey = pozicion[1] * game.elementSize;
-                if (xPozition >= useX-game.elementSize && xPozition <= useX +game.elementSize && yPozition >= usey-game.elementSize&& yPozition <= usey+game.elementSize) {
+                if (xPozition >= useX - game.elementSize && xPozition <= useX + game.elementSize && yPozition >= usey - game.elementSize && yPozition <= usey + game.elementSize) {
                     xPozition = previousX;
                     yPozition = previousY;
-                    System.out.println(" colizion at: [" + useX + ", " + usey + "]");
-                    // System.exit(0);
+                    // System.out.println(" colizion at: [" + useX + ", " + usey + "]");
+
                 }
 
             }
         }
     }
 
-    boolean waitTime (float seconds){
+    boolean waitTime(float seconds) {
         int frames = (secondsCounter * game.FPS) + game.frame;
-        if ( frames == (int)(seconds*game.FPS)){
+        if (frames == (int) (seconds * game.FPS)) {
             secondsCounter = 0;
             return true;
-        }
-        else{
-            if (game.frame == 0){
-                secondsCounter +=1; 
+        } else {
+            if (game.frame == 0) {
+                secondsCounter += 1;
             }
             return false;
         }

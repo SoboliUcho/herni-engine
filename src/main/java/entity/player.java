@@ -3,15 +3,17 @@ package entity;
 import game.keyboard;
 import game.lifeBar;
 
+import java.awt.Graphics2D;
+
 import game.game;
 
 //glpat-64qafhwcij1dKBRjjpnN
 public class player extends entita {
-    public inventory inventory;
     int xDefault;
     int yDefault;
     keyboard keyboard;
     public lifeBar lifeBar;
+    public inventory inventory;
 
     public player(int x, int y, game game, keyboard keyboard) {
         super(x, y, game);
@@ -24,6 +26,15 @@ public class player extends entita {
         setDefault();
         openImage(type);
         openAttackImage();
+        openCatchImage();
+    }
+
+    public void catchAction(Graphics2D g2) {
+        if (game.keyboard.iIsPress) {
+            int x = xPozition - ((game.elementSize * range) / 2) + game.elementSize / 2;
+            int y = yPozition - ((game.elementSize * range) / 2) + game.elementSize / 2;
+            g2.drawImage(catchImage, x, y, game.elementSize * range, game.elementSize * range, null);
+        }
     }
 
     public void setDefault() {
@@ -56,13 +67,33 @@ public class player extends entita {
     }
 
     public void catchElements() {
-        // for (int i = 0; i< game.gameInventory.length; i++) {
-        //     int rangeReal = range * game.elementSize;
-        //     if (inventory.inventory[i].xPozition > rangeReal && inventory.inventory[i].xPozition < (rangeReal + game.elementSize) ){
-        //         System.out.println("chyť mě");
-        //         //TODO game inventory reach
-        //     }
-        // }
+        // inventory.print();
+        for (int i = 0; i < game.gamInventory.inventory.length; i++) {
+            if (game.gamInventory.inventory[i] == null) {
+                continue;
+            }
+            if (game.gamInventory.inventory[i].isColectable(this) && keyboard.iIsPress == true) {
+                boolean full = true;
+                for (int f = 0; f < inventory.inventoryLenght(); f++) {
+                    if (inventory.inventory[f] == null) {
+                        if (game.gamInventory.inventory[i] instanceof heart) {
+                            lives = lives + game.gamInventory.inventory[i].lives;
+                        } else {
+                            inventory.inventory[f].toInventory(game.gamInventory.inventory[i]);
+                            System.out.println(inventory.inventory[f].type + " was moovew to inventory");
+                            addStrange(game.gamInventory.inventory[i].strange);
+                        }
+                        game.gamInventory.inventory[i] = null;
+                        full = false;
+                        break;
+                    }
+                }
+                if (full) {
+                    System.out.println("inventory is full");
+                }
+            }
+        }
+
     }
 
     public void addLives(int quantity) {

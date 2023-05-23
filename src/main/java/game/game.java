@@ -5,6 +5,7 @@ import java.awt.Graphics2D;
 
 import javax.swing.JPanel;
 
+import entity.element;
 import entity.enemy;
 import entity.inventory;
 import entity.player;
@@ -124,11 +125,12 @@ public class game extends JPanel implements Runnable {
         for (wall wall : walls) {
             wall.paintWall(g2);
         }
-        player.atack(g2);
         player.draw(g2);
-        player.catchElements();
+        player.atackAction(g2);
+        player.catchAction(g2);
         player.inventory.drawInventory(g2);
         player.lifeBar.drawLifeBar(g2);
+        // gamInventory.print();
     }
 
     void updatePozicion() {
@@ -137,8 +139,9 @@ public class game extends JPanel implements Runnable {
             // enemy.entitaPozicion()[1]);
             enemy.moveEntityToPlayer();
         }
-        
+        // gamInventory.update();
         player.movePlayer();
+        player.catchElements();
         // player.moveRandom();
     }
 

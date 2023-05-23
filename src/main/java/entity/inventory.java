@@ -6,10 +6,11 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import game.endPoint;
 import game.game;
 
 public class inventory {
-    element[] inventory;
+    public element[] inventory;
     static Image inventoryFrame;
     player player;
     game game;
@@ -20,14 +21,17 @@ public class inventory {
             i = null;
         }
         this.player = player;
+        this.game = player.game;
         openImageInventory();
     }
-    public inventory (game game, int numebrOfElements){
+
+    public inventory(game game, int numebrOfElements) {
         inventory = new element[numebrOfElements];
         for (element i : inventory) {
             i = null;
         }
         this.game = game;
+        this.player = game.player;
     }
 
     private void openImageInventory() {
@@ -45,7 +49,7 @@ public class inventory {
         for (int i = 0; i < inventory.length; i++) {
             if (inventory[i] == null) {
                 inventory[i] = element;
-                inventory[i].isInInventory = true;
+                // inventory[i].isInInventory = true;
                 System.out.println(inventory[i].type + " was ad to inventory");
                 print();
                 break;
@@ -53,7 +57,7 @@ public class inventory {
         }
     }
 
-    void print(){
+    public void print() {
         for (element element : inventory) {
             System.out.println(element);
         }
@@ -64,36 +68,35 @@ public class inventory {
             int imageSize = player.game.elementSize * 2;
             int xPozition = imageSize * i;
             int yPozition = player.game.yElements * (imageSize / 2);
-            g2.drawImage(inventoryFrame, xPozition, yPozition, imageSize, imageSize,null);
-            // System.out.println("tady");
-            // System.out.println(xPozition + " " + yPozition);
-            // System.out.println(i + " - " + inventory[i]);
+            g2.drawImage(inventoryFrame, xPozition, yPozition, imageSize, imageSize, null);
 
-            if (inventory[i] != null){
-                // System.out.println(i + " - " + inventory[i] + " " + inventory[i].isInInventory);
-                // System.out.println(xPozition + " " + yPozition);
-                inventory[i].drawElemnt(xPozition +player.game.elementSize/2, yPozition + player.game.elementSize/2, g2);
+            if (inventory[i] != null && inventory[i].isInInventory == true) {
+                inventory[i].drawElemnt(xPozition + player.game.elementSize / 2,
+                        yPozition + player.game.elementSize / 2, g2);
             }
         }
-        // drawItems(g2);
     }
 
     public void drawItems(Graphics2D g2) {
         for (element element : inventory) {
-            if (element != null){
+            if (element != null) {
                 element.drawElemnt(g2);
+                // System.out.println(element.isColectable(player));
+                element.printColect(player, g2);
             }
         }
     }
 
-    public boolean elementIsCatchble (player player){
-        for (int i = 0; i< inventory.length; i++) {
-            int rangeReal = player.range * game.elementSize;
-            if (inventory[i].xPozition > rangeReal && inventory[i].xPozition < (rangeReal + game.elementSize) ){
-                System.out.println("chyť mě");
-                //TODO game inventory reach
-            }
-        } 
-        return false;
+    int inventoryLenght() {
+        return inventory.length;
     }
+
+    public void update() {
+        for (element element : inventory) {
+            if (element instanceof endPoint) {
+                ((endPoint) element).inEndPoint();
+            }
+        }
+    }
+
 }
