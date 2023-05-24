@@ -1,5 +1,6 @@
 package entity;
 
+import java.awt.Graphics2D;
 import java.util.Random;
 
 import game.game;
@@ -7,16 +8,43 @@ import game.game;
 public class enemy extends entita {
     int eyeshot;
 
-    public enemy(int x, int y, game game) {
+    public enemy(int x, int y, int lives, game game) {
         super(x, y, game);
         speed = 1;
         eyeshot = 5;
         this.type = "enemy";
+        this.lives = lives;
         openImage(type);
     }
 
-    void atack() {
+    public void atack() {
+        if (playerIsInRange(game.player) && makeAction){
+            makeDamage(game.player);
+            atack = true;
+        }
         
+    }
+
+    public void atackActionEnemy(Graphics2D g2){
+        if (atack){
+            atackAction(g2);
+            if (!animationCoolDown()){
+                atack = false;
+            }
+        }
+    }
+
+    boolean playerIsInRange(player playere) {
+        int useX = xPozition * game.elementSize;
+        int useY = yPozition * game.elementSize;
+        int range = ((game.elementSize * playere.range) / 2) - (game.elementSize / 2);
+        if (playere.xPozition - range <= useX + game.elementSize && playere.xPozition + range >= useX - game.elementSize
+                && playere.yPozition - range <= useY + game.elementSize
+                && playere.yPozition + range >= useY - game.elementSize) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public void moveEntityToPlayer() {

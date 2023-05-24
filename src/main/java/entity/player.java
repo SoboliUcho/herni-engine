@@ -30,7 +30,7 @@ public class player extends entita {
     }
 
     public void catchAction(Graphics2D g2) {
-        if (game.keyboard.iIsPress) {
+        if (game.keyboard.iIsPress && animationCoolDown()) {
             int x = xPozition - ((game.elementSize * range) / 2) + game.elementSize / 2;
             int y = yPozition - ((game.elementSize * range) / 2) + game.elementSize / 2;
             g2.drawImage(catchImage, x, y, game.elementSize * range, game.elementSize * range, null);
@@ -64,10 +64,18 @@ public class player extends entita {
             xPozition = xPozition - speed;
         }
         hitWall(previousX, previousY);
+        makeAction = coolDown();
+        // System.out.println(makeAction);
     }
 
     public void catchElements() {
         // inventory.print();
+        if (makeAction == false) {
+            return;
+        }
+        if (keyboard.iIsPress) {
+            makeAction = false;
+        }
         for (int i = 0; i < game.gamInventory.inventory.length; i++) {
             if (game.gamInventory.inventory[i] == null) {
                 continue;
@@ -104,4 +112,23 @@ public class player extends entita {
         this.strange = quantity;
     }
 
+    public void atack() {
+        for (enemy Enemy : game.enemies) {
+            if (keyboard.spaceIsPress && makeAction) {
+                makeDamage(Enemy);
+                makeAction = false;
+                atack = true;
+                System.out.println("makeAtack");
+            }
+        }
+    }
+
+    public void atackActionPlayer(Graphics2D g2) {
+        if (game.keyboard.spaceIsPress) {
+            atackAction(g2);
+            if (!animationCoolDown()){
+                atack = false;
+            }
+        }
+    }
 }

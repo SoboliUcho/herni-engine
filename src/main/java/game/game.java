@@ -5,7 +5,6 @@ import java.awt.Graphics2D;
 
 import javax.swing.JPanel;
 
-import entity.element;
 import entity.enemy;
 import entity.inventory;
 import entity.player;
@@ -29,7 +28,7 @@ public class game extends JPanel implements Runnable {
     public Thread thread;
 
     public player player;
-    enemy[] enemies;
+    public enemy[] enemies;
     public wall[] walls;
     public inventory gamInventory;
     // wall[] sideWalls;
@@ -87,7 +86,7 @@ public class game extends JPanel implements Runnable {
         window.makeWindow("game", xElements, xElements, elementSize, keyboard);
     }
 
-    void frameCount(long timethread) {
+    public void frameCount(long timethread) {
         curentTime = System.nanoTime();
         if (frame == FPS) {
             frame = 1;
@@ -118,16 +117,18 @@ public class game extends JPanel implements Runnable {
         gamInventory.drawItems(g2);
 
         for (enemy enemy : enemies) {
-            enemy.draw(g2);
+            if (enemy.isLive()) {
+                enemy.draw(g2);
+            }
             // System.out.println(enemy.playerIsVisible());
         }
 
         for (wall wall : walls) {
             wall.paintWall(g2);
         }
-        player.draw(g2);
-        player.atackAction(g2);
+        player.atackActionPlayer(g2);
         player.catchAction(g2);
+        player.draw(g2);
         player.inventory.drawInventory(g2);
         player.lifeBar.drawLifeBar(g2);
         // gamInventory.print();
@@ -142,6 +143,7 @@ public class game extends JPanel implements Runnable {
         // gamInventory.update();
         player.movePlayer();
         player.catchElements();
+        player.atack();
         // player.moveRandom();
     }
 
@@ -159,6 +161,7 @@ public class game extends JPanel implements Runnable {
             repaint();
 
             frameCount(timethread);
+            // System.out.println(frame);
             curentTime = System.nanoTime();
             threadSleepTime();
 

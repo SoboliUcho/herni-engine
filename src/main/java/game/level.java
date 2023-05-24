@@ -20,7 +20,7 @@ public class level {
         // loadLevel();
     }
     void loadLevel(){
-        enemy enemy = new enemy(25, 25, game);
+        enemy enemy = new enemy(25, 25, 5,game);
         // enemy enemy2 = new enemy(5, 25, game);
         // enemy enemy3 = new enemy(15, 5, game);
         // enemy enemy5 = new enemy(1, 5, game);
@@ -42,7 +42,7 @@ public class level {
         game.gamInventory = new inventory(game, 2);
         element element = new element("heart", game);
         heart element2 = new heart(15,14,1,true, game);
-        endPoint endPoint = new endPoint(10, 10, game);
+        endPoint endPoint = new endPoint(10, 10, null, game);
         System.out.println("level " + levelNumber + " is loaded");
     }   
     public void sideWall(){

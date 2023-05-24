@@ -6,9 +6,11 @@ import entity.element;
 import entity.player;
 
 public class endPoint extends element {
+    String [] keys;
 
-    public endPoint(int xPozition, int yPozition, game game) {
+    public endPoint(int xPozition, int yPozition, String [] keys, game game) {
         super(xPozition, yPozition, "end", false, game);
+        this.keys = keys;
         this.game.gamInventory.addEelentToInventory(this);
     }
 
@@ -24,7 +26,7 @@ public class endPoint extends element {
         return false;
     }
 
-    public boolean haveKeys(String [] keys){
+    public boolean haveKeys(){
         int goodKeys = 0;
         if (keys == null){
             return true;
@@ -39,9 +41,14 @@ public class endPoint extends element {
         if (goodKeys == keys.length){
             return true;
         }
+
         return false;
     }
 
+    public void needKeys(Graphics2D g2){
+
+        g2.drawString("Press I", xPozition * game.elementSize, yPozition * game.elementSize);
+    }
     @Override
     public void printColect(player playere, Graphics2D g2) {
         if (inEndPoint()) {

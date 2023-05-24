@@ -21,11 +21,15 @@ public class entita {
     public int lives;
     public Image image;
     public game game;
+    boolean atack = false;
+
 
     static Image attackImage;
     static Image catchImage;
 
     int secondsCounter = 0;
+    int timeOfattack = 2;
+    public boolean makeAction = true;
     int xX;
     int yY;
 
@@ -40,17 +44,17 @@ public class entita {
 
     }
 
-    boolean isLive() {
-        if (lives < 1) {
-            return false;
-        } else {
+    public boolean isLive() {
+        if (lives > 0) {
             return true;
+        } else {
+            return false;
         }
     }
 
     public void atackAction(Graphics2D g2) {
-        if (game.keyboard.spaceIsPress) {
-            int pozicion = game.elementSize;
+        if (atack && animationCoolDown()) {
+            // int pozicion = game.elementSize;
             int x = xPozition - ((game.elementSize * range) / 2) + game.elementSize / 2;
             int y = yPozition - ((game.elementSize * range) / 2) + game.elementSize / 2;
             g2.drawImage(attackImage, x, y, game.elementSize * range, game.elementSize * range, null);
@@ -81,7 +85,7 @@ public class entita {
         String fullname = "/img/catch.png";
         try {
             catchImage = ImageIO.read(getClass().getResourceAsStream(fullname));
-            System.out.println("successful image uploaded of Attack");
+            System.out.println("successful image uploaded of Catch");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -152,7 +156,8 @@ public class entita {
             for (int[] pozicion : wall.wallPoints) {
                 int useX = pozicion[0] * game.elementSize;
                 int usey = pozicion[1] * game.elementSize;
-                if (xPozition >= useX - game.elementSize && xPozition <= useX + game.elementSize && yPozition >= usey - game.elementSize && yPozition <= usey + game.elementSize) {
+                if (xPozition >= useX - game.elementSize && xPozition <= useX + game.elementSize
+                        && yPozition >= usey - game.elementSize && yPozition <= usey + game.elementSize) {
                     xPozition = previousX;
                     yPozition = previousY;
                     // System.out.println(" colizion at: [" + useX + ", " + usey + "]");
@@ -174,5 +179,29 @@ public class entita {
             }
             return false;
         }
+    }
+
+    boolean coolDown() {
+        if (makeAction) {
+            return true;
+        }
+        if (secondsCounter == timeOfattack) {
+            secondsCounter = 0;
+            return true;
+        } else {
+            if (game.frame == 1) {
+                secondsCounter += 1;
+                System.out.println(secondsCounter);
+            }
+            return false;
+        }
+
+    }
+
+    boolean animationCoolDown(){
+        if (secondsCounter == 0){
+            return true;
+        }
+        return false;
     }
 }
