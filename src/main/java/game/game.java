@@ -31,6 +31,7 @@ public class game extends JPanel implements Runnable {
     public enemy[] enemies;
     public wall[] walls;
     public inventory gamInventory;
+    public endPoint endPoint;
     // wall[] sideWalls;
 
     public game() {
@@ -40,10 +41,8 @@ public class game extends JPanel implements Runnable {
         this.timePerFrame = 1_000_000_000 / FPS;
 
         keyboard = new keyboard();
-        level = new level(levelNumber, this);
-        level.loadLevel();
         // addPlayer();
-        // thread = new Thread(this);
+        thread = new Thread(this);
     }
 
     void addPlayer(entity.player player) {
@@ -119,6 +118,7 @@ public class game extends JPanel implements Runnable {
         for (enemy enemy : enemies) {
             if (enemy.isLive()) {
                 enemy.draw(g2);
+                enemy.atackActionEnemy(g2);
             }
             // System.out.println(enemy.playerIsVisible());
         }
@@ -136,9 +136,8 @@ public class game extends JPanel implements Runnable {
 
     void updatePozicion() {
         for (enemy enemy : enemies) {
-            // System.out.println(enemy.entitaPozicion()[0] +", " +
-            // enemy.entitaPozicion()[1]);
             enemy.moveEntityToPlayer();
+            enemy.atack();
         }
         // gamInventory.update();
         player.movePlayer();
@@ -149,22 +148,21 @@ public class game extends JPanel implements Runnable {
 
     @Override
     public void run() {
-        // level.loadLevel();
         while (true) {
-            // while (frame < 1) {
-            long timethread = System.currentTimeMillis();
-            // System.out.println(timethread);
+            level = new level(levelNumber, this);
+            level.loadLevel();
+            while (!endPoint.inEndPoint() && player.isLive()) {
+                // while (true) {
+                long timethread = System.currentTimeMillis();
+                startTime = System.nanoTime();
+                updatePozicion();
+                repaint();
 
-            startTime = System.nanoTime();
-            // keyboard.print();
-            updatePozicion();
-            repaint();
-
-            frameCount(timethread);
-            // System.out.println(frame);
-            curentTime = System.nanoTime();
-            threadSleepTime();
-
+                frameCount(timethread);
+                curentTime = System.nanoTime();
+                threadSleepTime();
+            }
         }
+
     }
 }

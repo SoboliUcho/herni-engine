@@ -204,4 +204,18 @@ public class entita {
         }
         return false;
     }
+
+    boolean entitaIsInRange(entita entita){
+        int rang = ((game.elementSize * range) / 2) - (game.elementSize / 2);
+        int useX = xPozition;
+        int useY = yPozition;
+        
+        // System.out.println(rang);
+        if (useX-game.elementSize - rang <= entita.xPozition && useX + game.elementSize + rang>= entita.xPozition && useY-game.elementSize - rang <= entita.yPozition && useY + game.elementSize + rang>= entita.yPozition) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 }

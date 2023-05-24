@@ -8,8 +8,10 @@ import game.game;
 public class enemy extends entita {
     int eyeshot;
 
-    public enemy(int x, int y, int lives, game game) {
+    public enemy(int x, int y, int lives, int strange, int range, game game) {
         super(x, y, game);
+        this.strange = strange;
+        this.range = range; 
         speed = 1;
         eyeshot = 5;
         this.type = "enemy";
@@ -18,8 +20,10 @@ public class enemy extends entita {
     }
 
     public void atack() {
-        if (playerIsInRange(game.player) && makeAction){
+        // System.out.println(entitaIsInRange(game.player));
+        if (entitaIsInRange(game.player) && makeAction){
             makeDamage(game.player);
+            makeAction = false;
             atack = true;
         }
         
@@ -34,31 +38,17 @@ public class enemy extends entita {
         }
     }
 
-    boolean playerIsInRange(player playere) {
-        int useX = xPozition * game.elementSize;
-        int useY = yPozition * game.elementSize;
-        int range = ((game.elementSize * playere.range) / 2) - (game.elementSize / 2);
-        if (playere.xPozition - range <= useX + game.elementSize && playere.xPozition + range >= useX - game.elementSize
-                && playere.yPozition - range <= useY + game.elementSize
-                && playere.yPozition + range >= useY - game.elementSize) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
     public void moveEntityToPlayer() {
         Random rand = new Random();
         int newX = xPozition;
         int newY = yPozition;
         int previousX = xPozition;
         int previousY = yPozition;
+        makeAction = coolDown();
+        // System.out.println(makeAction);
         if (!playerIsVisible()) {
             return;
         }
-        // if (xPozition == game.player.xPozition && yPozition == game.player.yPozition) {
-        //     return;
-        // }
         if (xPozition >= game.player.xPozition-game.elementSize && xPozition <= game.player.xPozition +game.elementSize && yPozition >= game.player.yPozition-game.elementSize&& yPozition <= game.player.yPozition+game.elementSize) {
             return;
         }
