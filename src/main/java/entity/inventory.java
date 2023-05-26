@@ -78,6 +78,9 @@ public class inventory {
     }
 
     public void drawItems(Graphics2D g2) {
+        if (inventory == null){
+            return;
+        }
         for (element element : inventory) {
             if (element != null) {
                 element.drawElemnt(g2);

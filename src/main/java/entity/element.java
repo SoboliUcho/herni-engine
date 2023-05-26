@@ -29,7 +29,7 @@ public class element {
         this.isInInventory = false;
         this.game = game;
         openElemtImage(type);
-        this.game.gamInventory.addEelentToInventory(this);
+        // this.game.gamInventory.addEelentToInventory(this);
         lives = 0;
         strange = 0;
     }
@@ -42,7 +42,7 @@ public class element {
         this.isInInventory = false;
         this.game = game;
         openElemtImage(type);
-        this.game.gamInventory.addEelentToInventory(this);
+        // this.game.gamInventory.addEelentToInventory(this);
         this.lives = lives;
         this.strange = strange;
     }

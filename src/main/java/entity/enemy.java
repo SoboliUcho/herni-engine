@@ -21,7 +21,7 @@ public class enemy extends entita {
 
     public void atack() {
         // System.out.println(entitaIsInRange(game.player));
-        if (entitaIsInRange(game.player) && makeAction){
+        if (entitaIsInRange(game.player) && makeAction && isLive()){
             makeDamage(game.player);
             makeAction = false;
             atack = true;
@@ -46,7 +46,7 @@ public class enemy extends entita {
         int previousY = yPozition;
         makeAction = coolDown();
         // System.out.println(makeAction);
-        if (!playerIsVisible()) {
+        if (!playerIsVisible() || !isLive()) {
             return;
         }
         if (xPozition >= game.player.xPozition-game.elementSize && xPozition <= game.player.xPozition +game.elementSize && yPozition >= game.player.yPozition-game.elementSize&& yPozition <= game.player.yPozition+game.elementSize) {

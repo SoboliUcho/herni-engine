@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import javax.swing.JButton;
 import javax.swing.JPanel;
 
 public class mainScreen extends JPanel implements Runnable {
@@ -14,13 +15,16 @@ public class mainScreen extends JPanel implements Runnable {
     File[] levels;
     game game;
     Image LevelFrame;
-    boolean escWasPress = false;
+    boolean escWasPress = true;
+
+    public Thread gameThread;
+    public Thread menuThread;
+    // public Thread keayboardThread;
 
     public mainScreen(game game) {
         openImageLevel();
         loadLevels();
         this.game = game;
-        this.game.window.frame.add(this);
     }
 
     void loadLevels() {
@@ -33,7 +37,7 @@ public class mainScreen extends JPanel implements Runnable {
 
         levels = directory.listFiles();
         for (File file : levels) {
-            System.out.println(file);
+            // System.out.println(file);
         }
         if (levels == null) {
             throw new IllegalStateException("Unable to access files in the specified directory.");
@@ -59,12 +63,16 @@ public class mainScreen extends JPanel implements Runnable {
     }
 
     void openMainScreen(Graphics2D g2) {
+        this.game.window.frame.add(this);
         for (int i = 0; i < levelCount; i++) {
-            int imageSize = game.elementSize * 4;
-            int xPozition = 10 * game.elementSize;
-            int yPozition = game.elementSize * i * imageSize + game.elementSize;
-
-            g2.drawImage(LevelFrame, xPozition, yPozition, imageSize, imageSize, null);
+            int imageSize = game.elementSize * 5 - 5;
+            int yPozition = game.elementSize * i * 5 + game.elementSize;
+            int xPozition = 5* game.elementSize + game.elementSize;
+            JButton button = new JButton("Click Me");
+            button.setBounds(xPozition, yPozition, imageSize*4, imageSize);
+            game.add(button);
+            // game.revalidate();
+            // game.repaint();
         }
     }
 
@@ -79,9 +87,8 @@ public class mainScreen extends JPanel implements Runnable {
 
     @Override
     public void run() {
-        escStatus();
-        if (escWasPress) {
-            repaint();
+        while (!escWasPress) {
+            
         }
     }
 

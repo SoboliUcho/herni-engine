@@ -21,17 +21,16 @@ public class game extends JPanel implements Runnable {
     long curentTime;
     public int frame = 0;
 
-    int levelNumber;
+    int levelNumber=1;
     public level level;
     public keyboard keyboard;
     public window window;
-    public mainScreen mainScreen;
+    mainScreen mainScreen;
 
-    public Thread gamethread;
-    public Thread menuthread;
-    public Thread keayboardthread;
-
-
+    public Thread gameThread;
+    public Thread menuThread;
+    public Thread levelThread;
+    // public mainScreen mainScreen;
 
     public player player;
     public enemy[] enemies;
@@ -46,7 +45,10 @@ public class game extends JPanel implements Runnable {
         this.elementSize = 20;
         this.timePerFrame = 1_000_000_000 / FPS;
         keyboard = new keyboard();
-        gamethread = new Thread(this);
+        gameThread = new Thread(this);
+        mainScreen = new mainScreen(this);
+        level = new level(levelNumber, this);
+
     }
 
     void addPlayer(entity.player player) {
@@ -87,12 +89,14 @@ public class game extends JPanel implements Runnable {
     void makeWindow() {
         // System.out.println(window);
         window.makeWindow("game", xElements, xElements, elementSize, keyboard);
-        
+        gameThread.start();
+        // mainScreen.gameThread.start();
+        // mainScreen.menuThread.start();
 
         // mainScreen = new mainScreen(this);
         // // addPlayer();
         // menuthread = new Thread(mainScreen);
-        
+
     }
 
     public void frameCount(long timethread) {
@@ -141,7 +145,8 @@ public class game extends JPanel implements Runnable {
         player.draw(g2);
         player.inventory.drawInventory(g2);
         player.lifeBar.drawLifeBar(g2);
-        // gamInventory.print();
+        // // gamInventory.print();
+        // mainScreen.openMainScreen(g2);
     }
 
     void updatePozicion() {
@@ -158,11 +163,20 @@ public class game extends JPanel implements Runnable {
 
     @Override
     public void run() {
-        // while (true) {
-            level = new level(levelNumber, this);
-            level.loadLevel();
-            // while (!endPoint.inEndPoint() && player.isLive()) {
-                while (frame < 1) {
+        while (true) {
+            if (levelNumber != level.levelNumber) {
+                level = new level(levelNumber, this);
+                levelThread = new Thread (level);
+                levelThread.start();
+                try {
+                    levelThread.join();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            while (!endPoint.inEndPoint() && player.isLive()) {
+                // while (frame < 1) {
                 long timethread = System.currentTimeMillis();
                 startTime = System.nanoTime();
                 updatePozicion();
@@ -170,12 +184,13 @@ public class game extends JPanel implements Runnable {
 
                 frameCount(timethread);
                 curentTime = System.nanoTime();
-                if (endPoint.inEndPoint()){
+                if (endPoint.inEndPoint()) {
                     levelNumber += 1;
                 }
                 threadSleepTime();
             }
-        // }
+
+        }
 
     }
 }
