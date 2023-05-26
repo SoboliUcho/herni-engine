@@ -115,7 +115,9 @@ public class player extends entita {
     public void atack() {
         for (enemy Enemy : game.enemies) {
             if (keyboard.spaceIsPress && makeAction) {
-                makeDamage(Enemy);
+                if (entitaIsInRange(Enemy)) {
+                    makeDamage(Enemy);
+                }
                 makeAction = false;
                 atack = true;
                 System.out.println("makeAtack");
@@ -126,7 +128,7 @@ public class player extends entita {
     public void atackActionPlayer(Graphics2D g2) {
         if (game.keyboard.spaceIsPress) {
             atackAction(g2);
-            if (!animationCoolDown()){
+            if (!animationCoolDown()) {
                 atack = false;
             }
         }

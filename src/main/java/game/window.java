@@ -41,21 +41,7 @@ public class window {
         frame.setResizable(false);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
-        curentGame.thread.start();
-
+        curentGame.gamethread.start();
     }
-
-    // void PrintEntita( Graphics2D g2, entita entita) {
-    // int[] pozicion = entita.entitaPozicion();
-
-    // pozicion[0] = pozicion[0] * elementSize;
-    // pozicion[1] = pozicion[1] * elementSize;
-
-    // }
-
-    // @Override
-    // protected void paintComponent ( Graphics g ) {
-    // super.paintComponent ( g );
-    // }
 
 }

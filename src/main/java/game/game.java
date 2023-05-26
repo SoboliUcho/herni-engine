@@ -25,7 +25,13 @@ public class game extends JPanel implements Runnable {
     public level level;
     public keyboard keyboard;
     public window window;
-    public Thread thread;
+    public mainScreen mainScreen;
+
+    public Thread gamethread;
+    public Thread menuthread;
+    public Thread keayboardthread;
+
+
 
     public player player;
     public enemy[] enemies;
@@ -39,10 +45,8 @@ public class game extends JPanel implements Runnable {
         this.yElements = 30;
         this.elementSize = 20;
         this.timePerFrame = 1_000_000_000 / FPS;
-
         keyboard = new keyboard();
-        // addPlayer();
-        thread = new Thread(this);
+        gamethread = new Thread(this);
     }
 
     void addPlayer(entity.player player) {
@@ -83,6 +87,12 @@ public class game extends JPanel implements Runnable {
     void makeWindow() {
         // System.out.println(window);
         window.makeWindow("game", xElements, xElements, elementSize, keyboard);
+        
+
+        // mainScreen = new mainScreen(this);
+        // // addPlayer();
+        // menuthread = new Thread(mainScreen);
+        
     }
 
     public void frameCount(long timethread) {
@@ -148,11 +158,11 @@ public class game extends JPanel implements Runnable {
 
     @Override
     public void run() {
-        while (true) {
+        // while (true) {
             level = new level(levelNumber, this);
             level.loadLevel();
-            while (!endPoint.inEndPoint() && player.isLive()) {
-                // while (true) {
+            // while (!endPoint.inEndPoint() && player.isLive()) {
+                while (frame < 1) {
                 long timethread = System.currentTimeMillis();
                 startTime = System.nanoTime();
                 updatePozicion();
@@ -160,9 +170,12 @@ public class game extends JPanel implements Runnable {
 
                 frameCount(timethread);
                 curentTime = System.nanoTime();
+                if (endPoint.inEndPoint()){
+                    levelNumber += 1;
+                }
                 threadSleepTime();
             }
-        }
+        // }
 
     }
 }

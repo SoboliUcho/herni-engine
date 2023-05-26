@@ -3,7 +3,7 @@ package game;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-public class keyboard implements KeyListener {
+public class keyboard implements KeyListener{
     public boolean upIsPress,
             downIsPress,
             leftIsPress,
@@ -132,4 +132,9 @@ public class keyboard implements KeyListener {
         System.out.print(", I: ");
         System.out.println(iIsPress);
     }
+
+    // @Override
+    // public void run() {
+        
+    // }
 }
