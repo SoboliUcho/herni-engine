@@ -189,10 +189,11 @@ public class game extends JPanel implements Runnable {
                 repaint();
 
                 frameCount(timethread);
-                curentTime = System.nanoTime();
                 if (endPoint.inEndPoint()) {
                     levelNumber += 1;
                 }
+                level.saveProgress();
+                curentTime = System.nanoTime();
                 threadSleepTime();
             }
 

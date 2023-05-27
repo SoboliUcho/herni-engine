@@ -1,7 +1,10 @@
 package game;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -17,6 +20,8 @@ public class level implements Runnable {
     int levelNumber;
     String levelName;
 
+    File save;
+
     game game;
     ArrayList<wall> walls = new ArrayList<>();
     ArrayList<enemy> enemies = new ArrayList<>();
@@ -29,6 +34,7 @@ public class level implements Runnable {
         this.game = game;
 
         game.addPlayer(1, 1);
+        openSave();
         game.levelThread = new Thread(this);
         game.levelThread.start();
         // loadLevel();
@@ -210,21 +216,13 @@ public class level implements Runnable {
 
         levels = directory.listFiles();
         for (int i = 0; i < levels.length; i++) {
-            // System.out.println("openfiel");
-            // System.out.println(levels[i].getName() == this.levelName);
-            // System.out.println(levels[i]);
             System.out.println(this.levelName);
             if (levels[i].getName().equals(this.levelName)) {
                 level = levels[i];
                 System.out.println("level file exist");
                 return true;
             }
-            // System.out.println(file);
         }
-        // if (levels == null) {
-        // throw new IllegalStateException("Unable to access files in the specified
-        // directory.");
-        // }
         level = null;
         return false;
     }
@@ -237,6 +235,17 @@ public class level implements Runnable {
     void saveProgress() {
         String player = "player #" + game.player.xPozition + "#" + game.player.yPozition + "#true #" + game.player.lives
                 + "#" + game.player.strange;
+
+        String endPointString = "endPoint #" + game.endPoint.xPozition + "#" + game.endPoint.yPozition + "#";
+        if (game.endPoint.keys == null) {
+            endPointString = endPointString + "null";
+        } else {
+            for (String key : game.endPoint.keys) {
+
+                endPointString = endPointString + key + ",";
+            }
+        }
+
         ArrayList<String> enemyiList = new ArrayList<>();
         for (enemy enemy : game.enemies) {
             if (!enemy.isLive()) {
@@ -246,15 +255,63 @@ public class level implements Runnable {
                     + enemy.range;
             enemyiList.add(enem);
         }
+
         ArrayList<String> gameItemList = new ArrayList<>();
         for (element item : game.gamInventory.inventory) {
-            String enem = item.type + "#" + item.xPozition + "#" + item.yPozition + "#" + item.type+ "#game";
+            String enem = item.type + "#" + item.xPozition + "#" + item.yPozition + "#" + item.type + "#game";
             gameItemList.add(enem);
         }
+
         ArrayList<String> playerItemList = new ArrayList<>();
+
         for (element item : game.player.inventory.inventory) {
-            String enem = item.type + "#" + item.xPozition + "#" + item.yPozition + "#" + item.type+ "#player";
-            playerItemList.add(enem);
+            if (item != null) {
+                String enem = item.type + "#" + item.xPozition + "#" + item.yPozition + "#" + item.type + "#player";
+                playerItemList.add(enem);
+            }
+        }
+
+        ArrayList<String> wallist = new ArrayList<>();
+        for (wall item : walls) {
+            String enem = "wall #" + item.xStart + "#" + item.yStart + "#" + item.lenght + "#" + item.direction;
+            wallist.add(enem);
+        }
+
+        ArrayList<String> output = new ArrayList<>();
+        output.add(player);
+        output.add(endPointString);
+        output.addAll(enemyiList);
+        output.addAll(gameItemList);
+        output.addAll(playerItemList);
+        output.addAll(wallist);
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(save));) {
+            for (String line : output) {
+                writer.write(line);
+                writer.newLine();
+            }
+            System.out.println("Text written to file successfully.");
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    void openSave() {
+        File directory;
+        File[] levels;
+        String Name = "save.txt";
+        directory = new File("src/main/java/levels/");
+        if (!directory.isDirectory()) {
+            throw new IllegalArgumentException("Specified path is not a directory.");
+        }
+        levels = directory.listFiles();
+        for (int i = 0; i < levels.length; i++) {
+            // System.out.println(Name);
+            if (levels[i].getName().equals(Name)) {
+                save = levels[i];
+                System.out.println("save file exist");
+            }
         }
     }
 

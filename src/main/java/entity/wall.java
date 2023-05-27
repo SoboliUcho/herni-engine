@@ -9,10 +9,10 @@ import javax.imageio.ImageIO;
 import game.game;
 
 public class wall {
-    int xStart;
-    int yStart;
-    int lenght;
-    int direction;
+    public int xStart;
+    public int yStart;
+    public int lenght;
+    public int direction;
     public int[][] wallPoints;
 
     game game;
