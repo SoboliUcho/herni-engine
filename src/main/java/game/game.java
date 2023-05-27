@@ -51,6 +51,10 @@ public class game extends JPanel implements Runnable {
 
     }
 
+    public void addEndPoint (endPoint endPoint){
+        this.endPoint = endPoint;
+    }
+
     void addPlayer(entity.player player) {
         this.player = player;
         player.game = this;
@@ -128,6 +132,7 @@ public class game extends JPanel implements Runnable {
         Graphics2D g2 = (Graphics2D) g;
 
         gamInventory.drawItems(g2);
+        endPoint.drawElemnt(g2);
 
         for (enemy enemy : enemies) {
             if (enemy.isLive()) {
@@ -163,6 +168,7 @@ public class game extends JPanel implements Runnable {
 
     @Override
     public void run() {
+        // System.out.println(endPoint.xPozition + " "+ endPoint.yPozition);
         while (true) {
             if (levelNumber != level.levelNumber) {
                 level = new level(levelNumber, this);

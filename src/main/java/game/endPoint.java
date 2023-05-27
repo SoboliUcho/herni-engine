@@ -12,6 +12,7 @@ public class endPoint extends element {
         super(xPozition, yPozition, "end", false, game);
         this.keys = keys;
         this.game.endPoint = this;
+        // System.out.println(this.game);
     }
 
     public boolean inEndPoint() {

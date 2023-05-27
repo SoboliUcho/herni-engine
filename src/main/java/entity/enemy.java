@@ -19,6 +19,19 @@ public class enemy extends entita {
         openImage(type);
     }
 
+    public enemy(int x, int y, int lives, int strange, int range, game game , int difernt) {
+        super(x, y, game);
+        xPozition = x;
+        yPozition = y;
+        this.strange = strange;
+        this.range = range; 
+        speed = 1;
+        eyeshot = 5;
+        this.type = "enemy";
+        this.lives = lives;
+        openImage(type);
+    }
+
     public void atack() {
         // System.out.println(entitaIsInRange(game.player));
         if (entitaIsInRange(game.player) && makeAction && isLive()){

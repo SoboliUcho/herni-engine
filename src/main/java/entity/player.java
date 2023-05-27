@@ -17,8 +17,8 @@ public class player extends entita {
 
     public player(int x, int y, game game, keyboard keyboard) {
         super(x, y, game);
-        xDefault = x * game.elementSize;
-        yDefault = y * game.elementSize;
+        xPozition = x * game.elementSize;
+        yPozition= y * game.elementSize;
         type = "player";
         this.keyboard = keyboard;
         inventory = new inventory(this);
@@ -43,8 +43,8 @@ public class player extends entita {
         lives = 5;
         size = 1;
 
-        xPozition = xDefault;
-        yPozition = yDefault;
+        xDefault = xPozition;
+        yDefault = yPozition;
     }
 
     public void movePlayer() {

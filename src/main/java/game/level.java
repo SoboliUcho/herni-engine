@@ -15,18 +15,20 @@ import entity.wall;
 public class level implements Runnable {
     File level;
     int levelNumber;
+    String levelName;
 
     game game;
     ArrayList<wall> walls = new ArrayList<>();
     ArrayList<enemy> enemies = new ArrayList<>();
     ArrayList<element> items = new ArrayList<>();
+    ArrayList<element> playerItems = new ArrayList<>();
     player player;
 
     public level(int levelNumber, game game) {
         this.levelNumber = levelNumber;
         this.game = game;
 
-        game.addPlayer(20, 20);
+        game.addPlayer(1, 1);
         game.levelThread = new Thread(this);
         game.levelThread.start();
         // loadLevel();
@@ -37,9 +39,12 @@ public class level implements Runnable {
         for (int i = 0; i < items.size(); i++) {
             game.gamInventory.addEelentToInventory(items.get(i));
         }
-        enemy [] enemy  = enemies.toArray(new enemy[enemies.size()]);
+        for (int i = 0; i < playerItems.size(); i++) {
+            game.player.inventory.addEelentToInventory(items.get(i));
+        }
+        enemy[] enemy = enemies.toArray(new enemy[enemies.size()]);
         game.addEnemys(enemy);
-        wall [] wallis  = walls.toArray(new wall[walls.size()]);
+        wall[] wallis = walls.toArray(new wall[walls.size()]);
         game.addWalls(wallis);
         sideWall();
     }
@@ -47,25 +52,38 @@ public class level implements Runnable {
     void analiseText(ArrayList<String> text) {
         for (int i = 0; i < text.size(); i++) {
             String[] pieces = text.get(i).split("#");
-            if (pieces[0] == "player") {
+            for (int j = 0; j < pieces.length; j++) {
+                pieces[j] = pieces[j].trim();
+                // System.out.print(j + " ");
+                // System.out.println(pieces[j]);
+            }
+            // System.out.print(pieces[0] + "-" +pieces[1]);
+            if (pieces[0].equals("player")) {
                 makePlayer(pieces);
             }
-            if (pieces[0] == "enemy") {
+            if (pieces[0].equals("enemy")) {
                 makeEnemy(pieces);
             }
-            if (pieces[0] == "live") {
+            if (pieces[0].equals("live")) {
                 makeLive(pieces);
             }
-            if (pieces[0] == "element") {
+            if (pieces[0].equals("element")) {
                 makeElement(pieces);
             }
-            if (pieces[0] == "wall") {
+            if (pieces[0].equals("wall")) {
                 makeWall(pieces);
             }
-            if (pieces[0] == "endPoint") {
-                String[] keys = pieces[3].split(";");
-                endPoint endPoint = new endPoint(Integer.parseInt(pieces[1]), Integer.parseInt(pieces[2]), keys, game);
-
+            if (pieces[0].equals("endPoint")) {
+                int x = Integer.parseInt(pieces[1]);
+                int y = Integer.parseInt(pieces[2]);
+                String[] keys;
+                if (pieces[3].equals("null")) {
+                    keys = null;
+                } else {
+                    keys = pieces[3].split(";");
+                }
+                endPoint endPoint = new endPoint(x, y, keys, game);
+                game.addEndPoint(endPoint);
             }
         }
     }
@@ -73,10 +91,11 @@ public class level implements Runnable {
     void makePlayer(String[] pieces) {
         game.addPlayer(Integer.parseInt(pieces[1]), Integer.parseInt(pieces[2]));
         if (Boolean.parseBoolean(pieces[3]) == true) {
-            game.player.xPozition = Integer.parseInt(pieces[4]);
-            game.player.yPozition = Integer.parseInt(pieces[5]);
-            game.player.lives = Integer.parseInt(pieces[5]);
-            game.player.xPozition = Integer.parseInt(pieces[6]);
+            game.player.xPozition = Integer.parseInt(pieces[1]);
+            game.player.yPozition = Integer.parseInt(pieces[2]);
+            game.player.setDefault();
+            game.player.lives = Integer.parseInt(pieces[4]);
+            game.player.xPozition = Integer.parseInt(pieces[5]);
         }
     }
 
@@ -87,9 +106,8 @@ public class level implements Runnable {
             enemy enemy = new enemy(x, y, 1, 1, 2, game);
             enemies.add(enemy);
         } else {
-            x *= game.elementSize;
-            y *= game.elementSize;
-            enemy enemy = new enemy(x, y, Integer.parseInt(pieces[4]), Integer.parseInt(pieces[5]),Integer.parseInt(pieces[6]), game);
+            enemy enemy = new enemy(x, y, Integer.parseInt(pieces[4]), Integer.parseInt(pieces[5]),
+                    Integer.parseInt(pieces[6]), game, 1);
             enemies.add(enemy);
         }
 
@@ -106,7 +124,13 @@ public class level implements Runnable {
         int x = Integer.parseInt(pieces[1]);
         int y = Integer.parseInt(pieces[2]);
         element element2 = new element(x, y, pieces[3], true, game);
-        items.add(element2);
+        if (pieces[4].equals("player")) {
+            element2.isInInventory = true;
+            element2.isColectable = false;
+            playerItems.add(element2);
+        } else {
+            items.add(element2);
+        }
     }
 
     void makeWall(String[] pieces) {
@@ -118,6 +142,9 @@ public class level implements Runnable {
 
     ArrayList<String> readFile() {
         ArrayList<String> text = new ArrayList<>();
+        // System.out.println(level.getName());
+        // System.out.println(level);
+        // System.out.println(this.levelName);
         try {
             Scanner scanner = new Scanner(level);
             while (scanner.hasNextLine()) {
@@ -149,7 +176,8 @@ public class level implements Runnable {
 
         // wall bot = new wall(1, 1, game.xElements, 1, game);
 
-        // enemies = new enemy[] { enemy }; // , enemy2, enemy3, enemy5, enemy6, enemy7};
+        // enemies = new enemy[] { enemy }; // , enemy2, enemy3, enemy5, enemy6,
+        // enemy7};
         sideWall();
         game.addWalls(new wall[] { wall });// , wall2, wall3, wall4});
         // game.addEnemys(enemies);
@@ -172,7 +200,8 @@ public class level implements Runnable {
     boolean openLevel(String levelName) {
         File directory;
         File[] levels;
-        levelName += ".txt";
+        this.levelName = levelName;
+        this.levelName += ".txt";
         directory = new File("src/main/java/levels/");
 
         if (!directory.isDirectory()) {
@@ -180,16 +209,22 @@ public class level implements Runnable {
         }
 
         levels = directory.listFiles();
-        for (File file : levels) {
-            if (file.getName() == levelName) {
-                level = file;
+        for (int i = 0; i < levels.length; i++) {
+            // System.out.println("openfiel");
+            // System.out.println(levels[i].getName() == this.levelName);
+            // System.out.println(levels[i]);
+            System.out.println(this.levelName);
+            if (levels[i].getName().equals(this.levelName)) {
+                level = levels[i];
+                System.out.println("level file exist");
                 return true;
             }
             // System.out.println(file);
         }
-        if (levels == null) {
-            throw new IllegalStateException("Unable to access files in the specified directory.");
-        }
+        // if (levels == null) {
+        // throw new IllegalStateException("Unable to access files in the specified
+        // directory.");
+        // }
         level = null;
         return false;
     }
@@ -197,6 +232,30 @@ public class level implements Runnable {
     boolean openLevel() {
         String name = "level" + levelNumber;
         return openLevel(name);
+    }
+
+    void saveProgress() {
+        String player = "player #" + game.player.xPozition + "#" + game.player.yPozition + "#true #" + game.player.lives
+                + "#" + game.player.strange;
+        ArrayList<String> enemyiList = new ArrayList<>();
+        for (enemy enemy : game.enemies) {
+            if (!enemy.isLive()) {
+                continue;
+            }
+            String enem = "enemy #" + enemy.xPozition + "#" + enemy.yPozition + "#false #" + enemy.lives + "#"
+                    + enemy.range;
+            enemyiList.add(enem);
+        }
+        ArrayList<String> gameItemList = new ArrayList<>();
+        for (element item : game.gamInventory.inventory) {
+            String enem = item.type + "#" + item.xPozition + "#" + item.yPozition + "#" + item.type+ "#game";
+            gameItemList.add(enem);
+        }
+        ArrayList<String> playerItemList = new ArrayList<>();
+        for (element item : game.player.inventory.inventory) {
+            String enem = item.type + "#" + item.xPozition + "#" + item.yPozition + "#" + item.type+ "#player";
+            playerItemList.add(enem);
+        }
     }
 
     @Override

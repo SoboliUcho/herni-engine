@@ -16,7 +16,7 @@ public class element {
     int size;
     int number;
     public boolean isInInventory;
-    boolean isColectable;
+    public boolean isColectable;
     public game game;
     int lives;
     int strange;

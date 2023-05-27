@@ -1,2 +1,4 @@
-#player #10 #10 #false
-#endPoint #12 #12
+player #10 #10 #false
+endPoint #12 #12 #null
+enemy #25 #25 #true
+wall #3 #3 #6 #1
