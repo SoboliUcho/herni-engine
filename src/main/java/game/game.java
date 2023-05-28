@@ -29,13 +29,12 @@ public class game extends JPanel implements Runnable {
     public level level;
     public keyboard keyboard;
     public window window;
-    // mainScreen mainScreen;
+    mainScreen mainScreen;
 
     public Thread gameThread;
     public Thread menuThread;
     public Thread levelThread;
     public Thread keyboardThread;
-    // public mainScreen mainScreen;
 
     public player player;
     public enemy[] enemies;
@@ -45,6 +44,7 @@ public class game extends JPanel implements Runnable {
     // wall[] sideWalls;
 
     boolean escWasPress = false;
+    
 
     public game() {
         this.xElements = 30;
@@ -141,7 +141,7 @@ public class game extends JPanel implements Runnable {
     }
 
     void escStatus() {
-        System.out.println(esc);
+        // System.out.println(esc);
         if (keyboard.escIsPress) {
             if (esc == 10) {
                 if (escWasPress) {
@@ -203,7 +203,7 @@ public class game extends JPanel implements Runnable {
             // // gamInventory.print();
             // mainScreen.openMainScreen(g2);
         }
-        
+
 
     }
 

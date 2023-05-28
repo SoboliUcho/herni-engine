@@ -1,4 +1,4 @@
-player #200#200#true #5#1
+player #234#260#true #2#1
 endPoint #12#12#null
-enemy #500#500#false #1#2
 wall #3#3#6#1
+wall #6#6#6#1
