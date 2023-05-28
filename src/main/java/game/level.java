@@ -1,5 +1,6 @@
 package game;
 
+import java.awt.Point;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -19,6 +20,7 @@ public class level implements Runnable {
     File level;
     int levelNumber;
     String levelName;
+    public boolean loaded = false;
 
     File save;
 
@@ -290,7 +292,7 @@ public class level implements Runnable {
                 writer.write(line);
                 writer.newLine();
             }
-            System.out.println("Text written to file successfully.");
+            // System.out.println("Text written to file successfully.");
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -320,6 +322,7 @@ public class level implements Runnable {
         openLevel();
         analiseText(readFile());
         loadLevel();
+        loaded = true;
         System.out.println("level " + levelNumber + " is loaded");
     }
 

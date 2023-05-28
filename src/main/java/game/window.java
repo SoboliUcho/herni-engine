@@ -11,6 +11,7 @@ public class window {
 
     String name;
     game curentGame;
+    // mainScreen mainScreen;
     JFrame frame;
 
     public window() {
@@ -18,6 +19,14 @@ public class window {
         curentGame.window = this;
         curentGame.makeWindow();
     }
+
+    // public window(String screen) {
+    //     curentGame = new game();
+    //     curentGame.window = this;
+    //     curentGame.makeWindow();
+    //     // mainScreen=curentGame.mainScreen;
+    //     openWindow();
+    // }
 
     void makeWindow(String name, int xElements, int yElements, int elementSize, keyboard keyboard) {
         this.name = name;
@@ -41,6 +50,17 @@ public class window {
         frame.setResizable(false);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
+        // curentGame.gameThread.start();
     }
-
+    // void openWindow(mainScreen Screen) {
+    //     frame = new JFrame(name);
+    //     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    //     frame.getContentPane().setPreferredSize(new Dimension(xSize, ySize));
+    //     frame.add(Screen);
+    //     frame.addKeyListener(keyboard);
+    //     frame.pack();
+    //     frame.setResizable(false);
+    //     frame.setLocationRelativeTo(null);
+    //     frame.setVisible(true);
+    // }
 }
