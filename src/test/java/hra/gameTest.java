@@ -4,6 +4,8 @@ import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
+import java.util.logging.Level;
+
 import entity.*;
 import game.*;
 
@@ -12,7 +14,7 @@ public class gameTest {
 
     @Before
     public void setUp() {
-        game = new game();
+        game = new game(Level.INFO);
     }
     @Test
     public void testAddEndPoint() {

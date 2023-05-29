@@ -1,6 +1,8 @@
 package game;
 
 import java.awt.Dimension;
+import java.util.logging.Level;
+
 import javax.swing.JFrame;
 
 /**
@@ -20,8 +22,8 @@ public class window {
      * Constructs a new window and initializes the game.
      */
 
-    public window() {
-        curentGame = new game();
+    public window(Level deafaultLoger) {
+        curentGame = new game(deafaultLoger);
         curentGame.window = this;
         curentGame.makeWindow();
     }

@@ -4,9 +4,10 @@ import java.util.logging.*;
 
 public class logger {
     private static final Logger logger = Logger.getLogger(logger.class.getName());
-    private static final Level DEFAULT_LOG_LEVEL = Level.INFO;
+    private static final Level DEFAULT_LOG_LEVEL;
 
     static {
+        DEFAULT_LOG_LEVEL=  game.deafaultLoger;
         // Set up the logger configuration
         logger.setLevel(DEFAULT_LOG_LEVEL);
         ConsoleHandler consoleHandler = new ConsoleHandler();

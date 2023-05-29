@@ -4,6 +4,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
+import java.util.logging.Level;
 
 import game.*;
 
@@ -13,7 +14,7 @@ public class levelTest {
 
     @Before
     public void setUp() {
-        game = new game();
+        game = new game(Level.INFO);
         level = new level(1, game);
     }
 

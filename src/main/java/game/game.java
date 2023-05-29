@@ -2,6 +2,7 @@ package game;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.util.logging.Level;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -46,10 +47,13 @@ public class game extends JPanel implements Runnable {
 
     boolean escWasPress = true;
     boolean buttonWasAdd = false;
+
+    static Level deafaultLoger;
    /**
      * Constructs a new game object.
      */
-    public game() {
+    public game(Level deafaultLoger) {
+        game.deafaultLoger = deafaultLoger;
         this.xElements = 30;
         this.yElements = 30;
         this.elementSize = 20;
