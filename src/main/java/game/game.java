@@ -25,7 +25,7 @@ public class game extends JPanel implements Runnable {
     public int frame = 0;
     int esc = 1;
 
-    int levelNumber = 1;
+    int levelNumber = 0;
     public level level;
     public keyboard keyboard;
     public window window;
