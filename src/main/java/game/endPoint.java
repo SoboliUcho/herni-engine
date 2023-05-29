@@ -40,7 +40,7 @@ public class endPoint extends element {
         if (game.player.xPozition <= useX + game.elementSize && game.player.xPozition >= useX - game.elementSize
                 && game.player.yPozition <= useY + game.elementSize
                 && game.player.yPozition >= useY - game.elementSize) {
-            System.out.println("v cíly");
+            logger.logInfo("player in exit");
             return true;
         }
         return false;
@@ -64,8 +64,10 @@ public class endPoint extends element {
             }
         }
         if (goodKeys == keys.length) {
+            logger.logFine("have keys");
             return true;
         }
+        logger.logFine("dont have keys");
 
         return false;
     }

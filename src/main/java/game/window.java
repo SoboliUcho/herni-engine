@@ -44,7 +44,7 @@ public class window {
         this.keyboard = keyboard;
         openWindow();
 
-        System.out.println("window size: x " + xSize + " y " + ySize + " was made");
+        logger.logInfo("window size: x " + xSize + " y " + ySize + " was made");
 
     }
 

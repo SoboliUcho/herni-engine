@@ -34,8 +34,7 @@ public class lifeBar {
         String fullname = "/img/heart.png";
         try {
             life = ImageIO.read(getClass().getResourceAsStream(fullname));
-            System.out.print("successful image uploaded of ");
-            System.out.println("Life");
+            logger.logInfo("successful image uploaded of Life");
         } catch (IOException e) {
             e.printStackTrace();
         }

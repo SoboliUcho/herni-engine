@@ -30,6 +30,7 @@ public class mainScreen {
         directory = new File("src/main/java/levels/");
 
         if (!directory.isDirectory()) {
+            logger.logError("specified path is not a directory.", null);
             throw new IllegalArgumentException("Specified path is not a directory.");
         }
 
@@ -38,6 +39,7 @@ public class mainScreen {
         // // System.out.println(file);
         // }
         if (levels == null) {
+            logger.logError("Unable to access files in the specified directory.", null);
             throw new IllegalStateException("Unable to access files in the specified directory.");
         }
         levelCount = levels.length;
@@ -73,6 +75,7 @@ public class mainScreen {
                 });
                 // button.setVisible(false);
                 buttons.add(button);
+                logger.logFine("buttons was made");
             }
         }
     }
@@ -80,7 +83,7 @@ public class mainScreen {
     JButton[] loadButons() {
         JButton[] button;
         button = buttons.toArray(new JButton[buttons.size()]);
-        System.out.println("buttons were add");
+        logger.logInfo("buttons were add");
         return button;
     }
 

@@ -84,7 +84,16 @@ public class keyboard implements KeyListener {
             System.out.println(iIsPress);
         }
         // System.out.println("run");
-
+        logger.logFiner("Key States - Up: " + upIsPress +
+                ", Down: " + downIsPress +
+                ", Left: " + leftIsPress +
+                ", Right: " + rightIsPress +
+                ", Shift: " + shiftIsPress +
+                ", Space: " + spaceIsPress +
+                ", F: " + fIsPress +
+                ", Esc: " + escIsPress +
+                ", Enter: " + enterIsPress +
+                ", I: " + iIsPress);
     }
 
     /**

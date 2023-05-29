@@ -68,6 +68,7 @@ public class game extends JPanel implements Runnable {
      */
     public void addEndPoint(endPoint endPoint) {
         this.endPoint = endPoint;
+        logger.logFine("add endpoit");
     }
 
     /**
@@ -78,6 +79,8 @@ public class game extends JPanel implements Runnable {
     public void addPlayer(entity.player player) {
         this.player = player;
         player.game = this;
+        logger.logFine("add player");
+
     }
     /**
      * Adds enemies to the game.
@@ -86,6 +89,8 @@ public class game extends JPanel implements Runnable {
      */
     public void addEnemys(enemy[] enemy) {
         this.enemies = enemy;
+        logger.logFine("add enemies");
+
     }
     /**
      * Adds a player to the game at the specified position.
@@ -96,6 +101,8 @@ public class game extends JPanel implements Runnable {
     public void addPlayer(int x, int y) {
         player = new player(x, y, this, keyboard);
         player.game = this;
+        logger.logFine("make player at: " +x + ", "+ y);
+
     }
     /**
      * Adds walls to the game.
@@ -115,7 +122,7 @@ public class game extends JPanel implements Runnable {
             }
             this.walls = temporeWalls;
         }
-
+        logger.logFine("add walls");
     }
     /**
      * Adds a window to the game.
@@ -133,6 +140,7 @@ public class game extends JPanel implements Runnable {
         window.makeWindow("game", xElements, xElements, elementSize, keyboard);
         menuThread.start();
         gameThread.start();
+        logger.logInfo("menu and game thread start");
 
     }
     /**
@@ -149,7 +157,7 @@ public class game extends JPanel implements Runnable {
         } else {
             frame = frame + 1;
         }
-        // System.out.println(frame);
+        logger.logFiner("farme: " + Integer.toString(frame));
     }
     /**
      * Pauses the thread to achieve the desired FPS.
@@ -157,7 +165,7 @@ public class game extends JPanel implements Runnable {
     void threadSleepTime() {
         long sleepTime = timePerFrame - (curentTime - startTime);
         if (sleepTime > 0) {
-            // System.out.println("sleep " + sleepTime);
+            logger.logFiner("sleep " + sleepTime);
             try {
                 Thread.sleep(sleepTime / 1000000, (int) (sleepTime % 1000000));
             } catch (InterruptedException e) {
@@ -202,8 +210,6 @@ public class game extends JPanel implements Runnable {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
-        // System.out.println(escWasPress);
-        // buttonsVisible();
             gamInventory.drawItems(g2);
             endPoint.drawElemnt(g2);
 
@@ -212,7 +218,6 @@ public class game extends JPanel implements Runnable {
                     enemy.draw(g2);
                     enemy.atackActionEnemy(g2);
                 }
-                // System.out.println(enemy.playerIsVisible());
             }
 
             for (wall wall : walls) {
@@ -223,11 +228,6 @@ public class game extends JPanel implements Runnable {
             player.draw(g2);
             player.inventory.drawInventory(g2);
             player.lifeBar.drawLifeBar(g2);
-            // // gamInventory.print();
-            // mainScreen.openMainScreen(g2);
-
-            // addButons();
-            // repaint();
         }
 
     /**
@@ -238,21 +238,21 @@ public class game extends JPanel implements Runnable {
             enemy.moveEntityToPlayer();
             enemy.atack();
         }
-        // gamInventory.update();
         player.movePlayer();
         player.catchElements();
         player.atack();
-        // System.out.println("run");
-        // player.moveRandom();
+        
     }
     /**
      * Loads the next level if the current level is completed.
      */
     void loadingLevel() {
+        if (menu.levelCount < levelNumber){
+            levelNumber = 0;
+        }
         if (levelNumber != level.levelNumber) {
             enemies = null;
             walls = null;
-            // player = null;
             level = new level(levelNumber, this);
             try {
                 levelThread.join();
@@ -260,6 +260,7 @@ public class game extends JPanel implements Runnable {
                 e.printStackTrace();
             }
         }
+        logger.logInfo("levelNumber:"+ levelNumber);
     }
     /**
      * The main game loop. Executes the game logic and rendering.
@@ -288,8 +289,6 @@ public class game extends JPanel implements Runnable {
                 curentTime = System.nanoTime();
                 threadSleepTime();
             }
-
         }
-
     }
 }

@@ -55,6 +55,7 @@ public class menu implements Runnable {
         directory = new File("src/main/java/levels/");
 
         if (!directory.isDirectory()) {
+            logger.logError("specified path is not a directory.", null);
             throw new IllegalArgumentException("Specified path is not a directory.");
         }
 
@@ -63,6 +64,8 @@ public class menu implements Runnable {
         // // System.out.println(file);
         // }
         if (levels == null) {
+            logger.logError("Unable to access files in the specified directory.", null);
+
             throw new IllegalStateException("Unable to access files in the specified directory.");
         }
         levelCount = levels.length;
@@ -85,7 +88,7 @@ public class menu implements Runnable {
     JMenuItem[] returnButons() {
         JMenuItem[] button;
         button = leves.toArray(new JMenuItem[leves.size()]);
-        System.out.println("buttons were add");
+        logger.logInfo("buttons were add");
         return button;
     }
 
@@ -110,6 +113,7 @@ public class menu implements Runnable {
                 });
                 leves.add(button);
             }
+            logger.logFine("button was made");
         }
     }
 
@@ -138,6 +142,6 @@ public class menu implements Runnable {
         loadButons();
         saveMenu();
         addButons();
-        System.out.println("buttons were add");
+        logger.logInfo("buttons were add");
     }
 }

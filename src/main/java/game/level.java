@@ -65,6 +65,7 @@ public class level implements Runnable {
         wall[] wallis = walls.toArray(new wall[walls.size()]);
         game.addWalls(wallis);
         sideWall();
+        logger.logInfo("level loaded");
     }
 
     /**
@@ -77,10 +78,7 @@ public class level implements Runnable {
             String[] pieces = text.get(i).split("#");
             for (int j = 0; j < pieces.length; j++) {
                 pieces[j] = pieces[j].trim();
-                // System.out.print(j + " ");
-                // System.out.println(pieces[j]);
             }
-            // System.out.print(pieces[0] + "-" +pieces[1]);
             if (pieces[0].equals("player")) {
                 makePlayer(pieces);
             } else if (pieces[0].equals("enemy")) {
@@ -119,6 +117,7 @@ public class level implements Runnable {
             game.player.setDefault();
             game.player.lives = Integer.parseInt(pieces[4]);
             game.player.strange = Integer.parseInt(pieces[5]);
+            logger.logFine("player was made");
         }
     }
 
@@ -138,7 +137,7 @@ public class level implements Runnable {
                     Integer.parseInt(pieces[6]), game, 1);
             enemies.add(enemy);
         }
-
+        logger.logFine("enemy was made");
     }
 
     /**
@@ -151,6 +150,7 @@ public class level implements Runnable {
         int y = Integer.parseInt(pieces[2]);
         heart element2 = new heart(x, y, 1, true, game);
         items.add(element2);
+        logger.logFine("heart was made");
     }
 
     /**
@@ -169,6 +169,7 @@ public class level implements Runnable {
         } else {
             items.add(element2);
         }
+        logger.logFine("element was made");
     }
 
     /**
@@ -181,6 +182,7 @@ public class level implements Runnable {
         int y = Integer.parseInt(pieces[2]);
         wall element2 = new wall(x, y, Integer.parseInt(pieces[3]), Integer.parseInt(pieces[4]), game);
         walls.add(element2);
+        logger.logFine("wall was made");
     }
 
     /**
@@ -188,19 +190,23 @@ public class level implements Runnable {
      */
     ArrayList<String> readFile() {
         ArrayList<String> text = new ArrayList<>();
+
         // System.out.println(level.getName());
         // System.out.println(level);
         // System.out.println(this.levelName);
         try {
             Scanner scanner = new Scanner(level);
             while (scanner.hasNextLine()) {
-                // System.out.println(scanner.nextLine());
-                text.add(scanner.nextLine());
+                String line = scanner.nextLine();
+                logger.logFiner(line);
+                text.add(line);
             }
             scanner.close();
+            logger.logFine(level.getName() + "was read");
             return text;
         } catch (FileNotFoundException e) {
             e.printStackTrace();
+            logger.logError("failed to read file", e);
         }
         return null;
 
@@ -247,6 +253,7 @@ public class level implements Runnable {
         wall right = new wall(game.xElements - 1, 0, game.xElements, 2, game);
 
         game.addWalls(new wall[] { top, bot, left, right });
+        logger.logInfo("side wall was made");
     }
 
     /**
@@ -264,6 +271,7 @@ public class level implements Runnable {
         directory = new File("src/main/java/levels/");
 
         if (!directory.isDirectory()) {
+            logger.logError("pecified path is not a directory.", null);
             throw new IllegalArgumentException("Specified path is not a directory.");
         }
 
@@ -272,7 +280,8 @@ public class level implements Runnable {
             System.out.println(this.levelName);
             if (levels[i].getName().equals(this.levelName)) {
                 level = levels[i];
-                System.out.println("level file exist");
+                // System.out.println("level file exist");
+                logger.logInfo("level file exist");
                 return true;
             }
         }
@@ -360,9 +369,9 @@ public class level implements Runnable {
                 writer.write(line);
                 writer.newLine();
             }
-            // System.out.println("Text written to file successfully.");
+            logger.logFine("Text written to file successfully.");
         } catch (IOException e) {
-            // TODO Auto-generated catch block
+            logger.logError("Save faield", e);
             e.printStackTrace();
         }
     }
@@ -376,6 +385,7 @@ public class level implements Runnable {
         String Name = "save.txt";
         directory = new File("src/main/java/levels/");
         if (!directory.isDirectory()) {
+            logger.logError("specified path is not a directory.", null);
             throw new IllegalArgumentException("Specified path is not a directory.");
         }
         levels = directory.listFiles();
@@ -383,7 +393,8 @@ public class level implements Runnable {
             // System.out.println(Name);
             if (levels[i].getName().equals(Name)) {
                 save = levels[i];
-                System.out.println("save file exist");
+                // System.out.println("save file exist");
+                logger.logInfo("level file exist");
             }
         }
     }
@@ -398,7 +409,7 @@ public class level implements Runnable {
         analiseText(readFile());
         loadLevel();
         loaded = true;
-        System.out.println("level " + levelNumber + " is loaded");
+        logger.logInfo("level " + levelNumber + " is loaded");
     }
 
 }
