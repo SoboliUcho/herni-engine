@@ -3,7 +3,11 @@ package game;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-public class keyboard implements KeyListener{
+/**
+ * The keyboard class handles keyboard input by implementing the KeyListener
+ * interface.
+ */
+public class keyboard implements KeyListener {
     public boolean upIsPress,
             downIsPress,
             leftIsPress,
@@ -17,8 +21,14 @@ public class keyboard implements KeyListener{
 
     @Override
     public void keyTyped(KeyEvent e) {
+        // This method is not used in this implementation
     }
 
+    /**
+     * Invoked when a key is pressed.
+     *
+     * @param e the KeyEvent object containing information about the key press
+     */
     @Override
     public void keyPressed(KeyEvent e) {
         System.out.println("loop");
@@ -77,6 +87,11 @@ public class keyboard implements KeyListener{
 
     }
 
+    /**
+     * Invoked when a key is released.
+     *
+     * @param e the KeyEvent object containing information about the key release
+     */
     @Override
     public void keyReleased(KeyEvent e) {
         int code = e.getKeyCode();
@@ -138,6 +153,6 @@ public class keyboard implements KeyListener{
 
     // @Override
     // public void run() {
-        
+
     // }
 }

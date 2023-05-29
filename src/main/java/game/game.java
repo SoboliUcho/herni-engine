@@ -10,7 +10,9 @@ import entity.enemy;
 import entity.inventory;
 import entity.player;
 import entity.wall;
-
+/**
+ * The game class represents the game panel and handles the game logic.
+ */
 public class game extends JPanel implements Runnable {
     public int xElements;
     public int yElements;
@@ -23,7 +25,7 @@ public class game extends JPanel implements Runnable {
     public int frame = 0;
     int esc = 1;
 
-    int levelNumber = 1;
+    int levelNumber = 0;
     public level level;
     public keyboard keyboard;
     public window window;
@@ -41,11 +43,12 @@ public class game extends JPanel implements Runnable {
     public inventory gamInventory;
     public endPoint endPoint;
     JButton[] buttons;
-    // wall[] sideWalls;
 
     boolean escWasPress = true;
     boolean buttonWasAdd = false;
-
+   /**
+     * Constructs a new game object.
+     */
     public game() {
         this.xElements = 30;
         this.yElements = 30;
@@ -58,25 +61,47 @@ public class game extends JPanel implements Runnable {
         level = new level(levelNumber, this);
 
     }
-
+    /**
+     * Adds the endpoint to the game.
+     *
+     * @param endPoint the endpoint object
+     */
     public void addEndPoint(endPoint endPoint) {
         this.endPoint = endPoint;
     }
 
+    /**
+     * Adds the player to the game.
+     *
+     * @param player the player object
+     */
     void addPlayer(entity.player player) {
         this.player = player;
         player.game = this;
     }
-
+    /**
+     * Adds enemies to the game.
+     *
+     * @param enemies an array of enemy objects
+     */
     public void addEnemys(enemy[] enemy) {
         this.enemies = enemy;
     }
-
+    /**
+     * Adds a player to the game at the specified position.
+     *
+     * @param x the x position of the player
+     * @param y the y position of the player
+     */
     public void addPlayer(int x, int y) {
         player = new player(x, y, this, keyboard);
         player.game = this;
     }
-
+    /**
+     * Adds walls to the game.
+     *
+     * @param walls an array of wall objects
+     */
     public void addWalls(wall[] walles) {
         if (this.walls == null) {
             this.walls = walles;
@@ -92,19 +117,29 @@ public class game extends JPanel implements Runnable {
         }
 
     }
-
+    /**
+     * Adds a window to the game.
+     *
+     * @param window the window object
+     */
     void addWindow(window window) {
         this.window = window;
         makeWindow();
     }
-
+    /**
+     * Creates and initializes the game window.
+     */
     void makeWindow() {
         window.makeWindow("game", xElements, xElements, elementSize, keyboard);
         menuThread.start();
         gameThread.start();
 
     }
-
+    /**
+     * Updates the frame count and prints the time it took to process a frame.
+     *
+     * @param timethread the time when the thread started
+     */
     public void frameCount(long timethread) {
         curentTime = System.nanoTime();
         if (frame == FPS) {
@@ -116,7 +151,9 @@ public class game extends JPanel implements Runnable {
         }
         // System.out.println(frame);
     }
-
+    /**
+     * Pauses the thread to achieve the desired FPS.
+     */
     void threadSleepTime() {
         long sleepTime = timePerFrame - (curentTime - startTime);
         if (sleepTime > 0) {
@@ -128,7 +165,9 @@ public class game extends JPanel implements Runnable {
             }
         }
     }
-
+    /**
+     * Handles the status of the escape key.
+     */
     void escStatus() {
         // System.out.println(escWasPress);
         if (keyboard.escIsPress) {
@@ -154,7 +193,11 @@ public class game extends JPanel implements Runnable {
         return;
     }
 
-
+    /**
+     * Overrides the paintComponent method to render the game elements on the screen.
+     *
+     * @param g the Graphics object used for rendering
+     */
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -187,7 +230,9 @@ public class game extends JPanel implements Runnable {
             // repaint();
         }
 
-
+    /**
+     * Updates the positions and actions of the game elements.
+     */
     void updatePozicion() {
         for (enemy enemy : enemies) {
             enemy.moveEntityToPlayer();
@@ -200,7 +245,9 @@ public class game extends JPanel implements Runnable {
         // System.out.println("run");
         // player.moveRandom();
     }
-
+    /**
+     * Loads the next level if the current level is completed.
+     */
     void loadingLevel() {
         if (levelNumber != level.levelNumber) {
             enemies = null;
@@ -214,7 +261,9 @@ public class game extends JPanel implements Runnable {
             }
         }
     }
-
+    /**
+     * The main game loop. Executes the game logic and rendering.
+     */
     @Override
     public void run() {
         while (true) {

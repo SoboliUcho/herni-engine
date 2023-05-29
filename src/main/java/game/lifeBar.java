@@ -8,17 +8,28 @@ import javax.imageio.ImageIO;
 
 import entity.player;
 
+/**
+ * The lifeBar class represents the life bar of the player in the game.
+ */
 public class lifeBar {
     player player;
     game game;
     public Image life;
 
+    /**
+     * Constructs a new lifeBar object for the specified player.
+     *
+     * @param player the player object
+     */
     public lifeBar(entity.player player) {
         this.player = player;
         game = this.player.game;
         openImageLifeBar();
     }
 
+    /**
+     * Opens and loads the image file for the life bar.
+     */
     private void openImageLifeBar() {
         String fullname = "/img/heart.png";
         try {
@@ -30,6 +41,11 @@ public class lifeBar {
         }
     }
 
+    /**
+     * Draws the life bar on the graphics context.
+     *
+     * @param g2 the graphics context
+     */
     void drawLifeBar(Graphics2D g2) {
         for (int i = 0; i < player.lives; i++) {
             int imageSize = game.elementSize * 2 - 5;

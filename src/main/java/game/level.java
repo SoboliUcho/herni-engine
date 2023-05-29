@@ -15,6 +15,10 @@ import entity.inventory;
 import entity.player;
 import entity.wall;
 
+/**
+ * The level class represents a game level and handles the loading of game
+ * elements within the level.
+ */
 public class level implements Runnable {
     File level;
     int levelNumber;
@@ -30,6 +34,12 @@ public class level implements Runnable {
     ArrayList<element> playerItems = new ArrayList<>();
     player player;
 
+    /**
+     * Constructs a level object with the specified level number and game instance.
+     *
+     * @param levelNumber the level number
+     * @param game        the game instance
+     */
     public level(int levelNumber, game game) {
         this.levelNumber = levelNumber;
         this.game = game;
@@ -41,6 +51,7 @@ public class level implements Runnable {
         // loadLevel();
     }
 
+    /** * uploads level elements to the game instance */
     void loadLevel() {
         game.gamInventory = new inventory(game, items.size());
         for (int i = 0; i < items.size(); i++) {
@@ -56,6 +67,11 @@ public class level implements Runnable {
         sideWall();
     }
 
+    /**
+     * Analyzes the text data and creates the corresponding game elements.
+     *
+     * @param text the text data representing the game elements
+     */
     void analiseText(ArrayList<String> text) {
         for (int i = 0; i < text.size(); i++) {
             String[] pieces = text.get(i).split("#");
@@ -95,6 +111,11 @@ public class level implements Runnable {
         }
     }
 
+    /**
+     * creates an entity-player according to the parameters in the text
+     * 
+     * @param pieces field of individual parameters in String form
+     */
     void makePlayer(String[] pieces) {
         game.addPlayer(Integer.parseInt(pieces[1]), Integer.parseInt(pieces[2]));
         if (Boolean.parseBoolean(pieces[3]) == true) {
@@ -106,6 +127,11 @@ public class level implements Runnable {
         }
     }
 
+    /**
+     * creates an entity-Enemy according to the parameters in the text
+     * 
+     * @param pieces field of individual parameters in String form
+     */
     void makeEnemy(String[] pieces) {
         int x = Integer.parseInt(pieces[1]);
         int y = Integer.parseInt(pieces[2]);
@@ -120,6 +146,11 @@ public class level implements Runnable {
 
     }
 
+    /**
+     * creates an element-Lifes according to the parameters in the text
+     * 
+     * @param pieces field of individual parameters in String form
+     */
     void makeLive(String[] pieces) {
         int x = Integer.parseInt(pieces[1]);
         int y = Integer.parseInt(pieces[2]);
@@ -127,6 +158,11 @@ public class level implements Runnable {
         items.add(element2);
     }
 
+    /**
+     * creates an element according to the parameters in the text
+     * 
+     * @param pieces field of individual parameters in String form
+     */
     void makeElement(String[] pieces) {
         int x = Integer.parseInt(pieces[1]);
         int y = Integer.parseInt(pieces[2]);
@@ -140,6 +176,11 @@ public class level implements Runnable {
         }
     }
 
+    /**
+     * creates an wall according to the parameters in the text
+     * 
+     * @param pieces field of individual parameters in String form
+     */
     void makeWall(String[] pieces) {
         int x = Integer.parseInt(pieces[1]);
         int y = Integer.parseInt(pieces[2]);
@@ -147,6 +188,9 @@ public class level implements Runnable {
         walls.add(element2);
     }
 
+    /**
+     * reads the file and stores each line in an array
+     */
     ArrayList<String> readFile() {
         ArrayList<String> text = new ArrayList<>();
         // System.out.println(level.getName());
@@ -167,6 +211,9 @@ public class level implements Runnable {
 
     }
 
+    /**
+     * Loads a test level with predefined game elements for testing purposes.
+     */
     void loadTestLevel() {
 
         enemy enemy = new enemy(15, 15, 1, 1, 2, game);
@@ -195,6 +242,9 @@ public class level implements Runnable {
         System.out.println("level " + levelNumber + " is loaded");
     }
 
+    /**
+     * Creates and adds the side walls to the wall repository.
+     */
     public void sideWall() {
         wall top = new wall(0, 0, game.xElements, 1, game);
         wall bot = new wall(0, game.yElements - 1, game.xElements, 1, game);
@@ -204,6 +254,13 @@ public class level implements Runnable {
         game.addWalls(new wall[] { top, bot, left, right });
     }
 
+    /**
+     * Opens the specified level file by its name.
+     *
+     * @param levelName The name of the level file to open.
+     * @return true if the level file exists and is successfully opened, false
+     *         otherwise.
+     */
     boolean openLevel(String levelName) {
         File directory;
         File[] levels;
@@ -228,6 +285,12 @@ public class level implements Runnable {
         return false;
     }
 
+    /**
+     * Opens the level based on the level number.
+     *
+     * @return true if the level file exists and is successfully opened, false
+     *         otherwise.
+     */
     boolean openLevel() {
         if (levelNumber == 0) {
             return openLevel("save");
@@ -237,6 +300,9 @@ public class level implements Runnable {
         }
     }
 
+    /**
+     * Saves the current game progress to a file.
+     */
     void saveProgress() {
         String player = "player #" + game.player.xPozition + "#" + game.player.yPozition + "#true #" + game.player.lives
                 + "#" + game.player.strange;
@@ -257,7 +323,7 @@ public class level implements Runnable {
                 continue;
             }
             String enem = "enemy #" + enemy.xPozition + "#" + enemy.yPozition + "#false #" + enemy.lives + "#"
-                    + enemy.strange+ "#" + enemy.range;
+                    + enemy.strange + "#" + enemy.range;
             enemyiList.add(enem);
         }
 
@@ -302,6 +368,9 @@ public class level implements Runnable {
         }
     }
 
+    /**
+     * Opens the save file.
+     */
     void openSave() {
         File directory;
         File[] levels;
@@ -320,6 +389,10 @@ public class level implements Runnable {
         }
     }
 
+    /**
+     * Implementation of the Runnable interface. This method is executed when the
+     * level is run as a thread.
+     */
     @Override
     public void run() {
         openLevel();

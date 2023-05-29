@@ -8,6 +8,9 @@ import javax.imageio.ImageIO;
 
 import game.game;
 
+/**
+ * The element class represents an element in the game.
+ */
 public class element {
     public int xPozition;
     public int yPozition;
@@ -21,6 +24,16 @@ public class element {
     int lives;
     int strange;
 
+    /**
+     * Constructs an element object at the specified position with the given type
+     * and collectible status.
+     *
+     * @param xPozition    the x-coordinate of the element's position
+     * @param yPozition    the y-coordinate of the element's position
+     * @param type         the type of the element
+     * @param isColectable true if the element is collectible, false otherwise
+     * @param game         the game object
+     */
     public element(int xPozition, int yPozition, String type, boolean isColectable, game game) {
         this.xPozition = xPozition;
         this.yPozition = yPozition;
@@ -34,6 +47,18 @@ public class element {
         strange = 0;
     }
 
+    /**
+     * Constructs an element object at the specified position with the given type,
+     * lives, strength, and collectible status.
+     *
+     * @param xPozition    the x-coordinate of the element's position
+     * @param yPozition    the y-coordinate of the element's position
+     * @param type         the type of the element
+     * @param lives        the number of lives of the element
+     * @param strange      the strength of the element
+     * @param isColectable true if the element is collectible, false otherwise
+     * @param game         the game object
+     */
     public element(int xPozition, int yPozition, String type, int lives, int strange, boolean isColectable, game game) {
         this.xPozition = xPozition;
         this.yPozition = yPozition;
@@ -47,6 +72,13 @@ public class element {
         this.strange = strange;
     }
 
+    /**
+     * Constructs an element object of the specified type and adds it to the
+     * player's inventory.
+     *
+     * @param type the type of the element
+     * @param game the game object
+     */
     public element(String type, game game) {
         this.xPozition = 0;
         this.yPozition = 0;
@@ -60,6 +92,15 @@ public class element {
         strange = 0;
     }
 
+    /**
+     * Constructs an element object of the specified type with the given lives,
+     * strength, and adds it to the player's inventory.
+     *
+     * @param type    the type of the element
+     * @param lives   the number of lives of the element
+     * @param strange the strength of the element
+     * @param game    the game object
+     */
     public element(String type, int lives, int strange, game game) {
         this.xPozition = 0;
         this.yPozition = 0;
@@ -73,16 +114,33 @@ public class element {
         this.strange = strange;
     }
 
+    /**
+     * Draws the element on the graphics context.
+     *
+     * @param g2 the graphics context
+     */
     public void drawElemnt(Graphics2D g2) {
         int x = xPozition * game.elementSize;
         int y = yPozition * game.elementSize;
         drawElemnt(x, y, g2);
     }
 
+    /**
+     * Draws the element on the graphics context at the specified absolute position.
+     *
+     * @param xPozition2 the x-coordinate of the position
+     * @param yPozition2 the y-coordinate of the position
+     * @param g2         the graphics context
+     */
     public void drawElemnt(int xPozition2, int yPozition2, Graphics2D g2) {
         g2.drawImage(image, xPozition2, yPozition2, game.elementSize, game.elementSize, null);
     }
 
+    /**
+     * Opens the image file for the element with the specified name.
+     *
+     * @param name the name of the element
+     */
     public void openElemtImage(String name) {
         String fullname = "/img/" + name + ".png";
         try {
@@ -94,6 +152,12 @@ public class element {
         }
     }
 
+    /**
+     * Checks if the element is within the range of the player.
+     *
+     * @param playere the player object
+     * @return true if the element is in range, false otherwise
+     */
     public boolean elementIsInRange(player playere) {
         int useX = xPozition * game.elementSize;
         int useY = yPozition * game.elementSize;
@@ -107,6 +171,12 @@ public class element {
         }
     }
 
+    /**
+     * Checks if the element is collectible by the player.
+     *
+     * @param playere the player object
+     * @return true if the element is collectible, false otherwise
+     */
     public boolean isColectable(player playere) {
         if (elementIsInRange(playere) && isInInventory == false) {
             // printColect();
@@ -115,12 +185,23 @@ public class element {
         return false;
     }
 
+    /**
+     * Prints the "Press I" message to collect the element on the graphics context.
+     *
+     * @param playere the player object
+     * @param g2      the graphics context
+     */
     public void printColect(player playere, Graphics2D g2) {
         if (isColectable(playere)) {
             g2.drawString("Press I", xPozition * game.elementSize, yPozition * game.elementSize);
         }
     }
 
+    /**
+     * Moves the element to the player's inventory.
+     *
+     * @param element the element to be moved
+     */
     public void toInventory(element element) {
         this.xPozition = 0;
         this.yPozition = 0;

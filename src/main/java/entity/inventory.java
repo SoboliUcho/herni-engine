@@ -9,12 +9,21 @@ import javax.imageio.ImageIO;
 import game.endPoint;
 import game.game;
 
+/**
+ * The Inventory class represents the inventory of the player in the game.
+ * It allows adding and showing elements in the player's inventory.
+ */
 public class inventory {
     public element[] inventory;
     static Image inventoryFrame;
     player player;
     game game;
 
+    /**
+     * Creates a new Inventory object for the specified player.
+     *
+     * @param player the player associated with the inventory
+     */
     public inventory(player player) {
         inventory = new element[5];
         for (element i : inventory) {
@@ -25,6 +34,13 @@ public class inventory {
         openImageInventory();
     }
 
+    /**
+     * Creates a new Inventory object for the specified game, with the specified
+     * number of elements.
+     *
+     * @param game             the game instance
+     * @param numberOfElements the number of elements in the inventory
+     */
     public inventory(game game, int numebrOfElements) {
         inventory = new element[numebrOfElements];
         for (element i : inventory) {
@@ -34,6 +50,9 @@ public class inventory {
         this.player = game.player;
     }
 
+    /**
+     * Opens the image file for the inventory frame
+     */
     private void openImageInventory() {
         String fullname = "/img/inventoryFrame.png";
         try {
@@ -45,6 +64,11 @@ public class inventory {
         }
     }
 
+    /**
+     * Adds an element to the inventory.
+     *
+     * @param element the element to add to the inventory
+     */
     public void addEelentToInventory(element element) {
         for (int i = 0; i < inventory.length; i++) {
             if (inventory[i] == null) {
@@ -57,12 +81,20 @@ public class inventory {
         }
     }
 
+    /**
+     * Prints the elements in the inventory.
+     */
     public void print() {
         for (element element : inventory) {
             System.out.println(element);
         }
     }
 
+    /**
+     * Draws the inventory frame on the screen.
+     *
+     * @param g2 the graphics context
+     */
     public void drawInventory(Graphics2D g2) {
         for (int i = 0; i < inventory.length; i++) {
             int imageSize = player.game.elementSize * 2;
@@ -77,8 +109,13 @@ public class inventory {
         }
     }
 
+    /**
+     * Draws the items from the inventory on the screen.
+     *
+     * @param g2 the graphics context
+     */
     public void drawItems(Graphics2D g2) {
-        if (inventory == null){
+        if (inventory == null) {
             return;
         }
         for (element element : inventory) {
@@ -90,10 +127,20 @@ public class inventory {
         }
     }
 
+    /**
+     * Returns the length of the inventory.
+     *
+     * @return the length of the inventory
+     */
     int inventoryLenght() {
         return inventory.length;
     }
 
+    /**
+     * Updates the inventory, specifically checking if any element is an instance of
+     * endPoint and calling the
+     * inEndPoint() method on it.
+     */
     public void update() {
         for (element element : inventory) {
             if (element instanceof endPoint) {

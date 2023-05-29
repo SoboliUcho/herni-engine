@@ -8,6 +8,10 @@ import java.awt.Graphics2D;
 import game.game;
 
 //glpat-64qafhwcij1dKBRjjpnN
+
+/**
+ * The player class represents the player entity in the game.
+ */
 public class player extends entita {
     int xDefault;
     int yDefault;
@@ -15,11 +19,20 @@ public class player extends entita {
     public lifeBar lifeBar;
     public inventory inventory;
 
+    /**
+     * Constructs a player object at the specified position with the given game and
+     * keyboard.
+     *
+     * @param x        the x-coordinate of the player's position
+     * @param y        the y-coordinate of the player's position
+     * @param game     the game object
+     * @param keyboard the keyboard object
+     */
     public player(int x, int y, game game, keyboard keyboard) {
         super(x, y, game);
         this.game = game;
         xPozition = x * game.elementSize;
-        yPozition= y * game.elementSize;
+        yPozition = y * game.elementSize;
         type = "player";
         this.keyboard = keyboard;
         inventory = new inventory(this);
@@ -29,8 +42,12 @@ public class player extends entita {
         openAttackImage();
         openCatchImage();
     }
-    
 
+    /**
+     * Displays the catch action image for the player.
+     *
+     * @param g2 the Graphics2D object
+     */
     public void catchAction(Graphics2D g2) {
         if (game.keyboard.iIsPress && animationCoolDown()) {
             int x = xPozition - ((game.elementSize * range) / 2) + game.elementSize / 2;
@@ -39,6 +56,9 @@ public class player extends entita {
         }
     }
 
+    /**
+     * Sets the default attributes of the player.
+     */
     public void setDefault() {
         speed = 2;
         strange = 1;
@@ -49,6 +69,9 @@ public class player extends entita {
         yDefault = yPozition;
     }
 
+    /**
+     * Moves the player based on the keyboard inputs.
+     */
     public void movePlayer() {
         // System.out.println("run");
 
@@ -71,6 +94,12 @@ public class player extends entita {
         makeAction = coolDown();
         // System.out.println(makeAction);
     }
+
+    /**
+     * Performs the catch action by adding elements to the player's inventory.
+     *
+     * @see inventory
+     */
 
     public void catchElements() {
         // inventory.print();
@@ -108,14 +137,27 @@ public class player extends entita {
 
     }
 
+    /**
+     * Adds lives to the player.
+     *
+     * @param quantity the quantity of lives to add
+     */
     public void addLives(int quantity) {
         this.lives += quantity;
     }
 
+    /**
+     * Adds strength to the player.
+     *
+     * @param quantity the quantity of strength to add
+     */
     public void addStrange(int quantity) {
         this.strange = quantity;
     }
 
+    /**
+     * Performs the attack action by damaging enemies within range.
+     */
     public void atack() {
         for (enemy Enemy : game.enemies) {
             if (keyboard.spaceIsPress && makeAction) {
@@ -129,6 +171,11 @@ public class player extends entita {
         }
     }
 
+    /**
+     * Displays the attack action image for the player.
+     *
+     * @param g2 the Graphics2D object
+     */
     public void atackActionPlayer(Graphics2D g2) {
         if (game.keyboard.spaceIsPress) {
             atackAction(g2);

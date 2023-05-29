@@ -8,6 +8,10 @@ import javax.imageio.ImageIO;
 
 import game.game;
 
+/**
+ * The Wall class represents a wall in the game. It defines the position,
+ * length, and direction of the wall.
+ */
 public class wall {
     public int xStart;
     public int yStart;
@@ -18,6 +22,16 @@ public class wall {
     game game;
     static Image wall = null;
 
+    /**
+     * Creates a new Wall object with the specified parameters.
+     *
+     * @param xStart    the starting x-coordinate of the wall
+     * @param yStart    the starting y-coordinate of the wall
+     * @param length    the length of the wall
+     * @param direction the direction of the wall (1 for horizontal, 2 for vertical,
+     *                  3 and 4 diagonaly, - change direction)
+     * @param game      the game instance
+     */
     public wall(int xStart, int yStart, int lenght, int direction, game game) {
         this.xStart = xStart;
         this.yStart = yStart;
@@ -29,6 +43,9 @@ public class wall {
         palceWall();
     }
 
+    /**
+     * Opens the image file of wall.
+     */
     public void openWallImage() {
         if (wall != null) {
             return;
@@ -43,9 +60,10 @@ public class wall {
         }
     }
 
+    /**
+     * calculate all realtive points wher is wall
+     */
     public void palceWall() {
-        // wallPoints[0][0] = xStart;
-        // wallPoints[0][1] = yStart;
         if (Math.abs(direction) == 1) {
             for (int i = 0; i < lenght; i++) {
                 wallPoints[i][0] = xStart + (i * direction);
@@ -70,11 +88,13 @@ public class wall {
                 wallPoints[i][1] = yStart + (i * direction / 4);
             }
         }
-
-        // paintWall(g2, xStart, yStart);
-        // paintWall(g2, xEnd, yEnd);
     }
 
+    /**
+     * Paints the wall on the graphics context.
+     *
+     * @param g2 the graphics context
+     */
     public void paintWall(Graphics2D g2) {
         for (int[] i : wallPoints) {
             int x = i[0] * game.elementSize;

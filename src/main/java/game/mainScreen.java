@@ -8,7 +8,10 @@ import java.util.ArrayList;
 
 import javax.swing.JButton;
 
-public class mainScreen{
+/*
+*this class is not use in this implemantation 
+*/
+public class mainScreen {
     ArrayList<JButton> buttons;
     public int levelCount;
     File[] levels;
@@ -59,7 +62,7 @@ public class mainScreen{
                         // switchPanel(panel1);
 
                         game.levelNumber = levelNumber;
-                        game.escWasPress = false; 
+                        game.escWasPress = false;
                         game.removeAll();
                         game.window.frame.add(game);
                         game.window.frame.addKeyListener(game.keyboard);
@@ -81,7 +84,6 @@ public class mainScreen{
         return button;
     }
 
-   
     public void run() {
         // System.out.println("buttons were add");
         loadLevels();
