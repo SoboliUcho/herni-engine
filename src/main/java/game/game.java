@@ -2,8 +2,6 @@ package game;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -29,7 +27,8 @@ public class game extends JPanel implements Runnable {
     public level level;
     public keyboard keyboard;
     public window window;
-    mainScreen mainScreen;
+    // mainScreen mainScreen;
+    menu menu;
 
     public Thread gameThread;
     public Thread menuThread;
@@ -41,10 +40,11 @@ public class game extends JPanel implements Runnable {
     public wall[] walls;
     public inventory gamInventory;
     public endPoint endPoint;
+    JButton[] buttons;
     // wall[] sideWalls;
 
-    boolean escWasPress = false;
-    
+    boolean escWasPress = true;
+    boolean buttonWasAdd = false;
 
     public game() {
         this.xElements = 30;
@@ -52,13 +52,10 @@ public class game extends JPanel implements Runnable {
         this.elementSize = 20;
         this.timePerFrame = 1_000_000_000 / FPS;
         keyboard = new keyboard();
+        menu = new menu(this);
         gameThread = new Thread(this);
-        // keyboardThread = new Thread(keyboard);
-        // mainScreen = new mainScreen(this);
-        // menuThread = new Thread(mainScreen);
+        menuThread = new Thread(menu);
         level = new level(levelNumber, this);
-        // levelThread = new Thread(level);
-        // levelThread.start();
 
     }
 
@@ -102,17 +99,9 @@ public class game extends JPanel implements Runnable {
     }
 
     void makeWindow() {
-        // System.out.println(window);
         window.makeWindow("game", xElements, xElements, elementSize, keyboard);
+        menuThread.start();
         gameThread.start();
-        // levelThread.start();
-        // menuThread.start();
-        // mainScreen.gameThread.start();
-        // mainScreen.menuThread.start();
-
-        // mainScreen = new mainScreen(this);
-        // // addPlayer();
-        // menuthread = new Thread(mainScreen);
 
     }
 
@@ -141,46 +130,37 @@ public class game extends JPanel implements Runnable {
     }
 
     void escStatus() {
-        // System.out.println(esc);
+        // System.out.println(escWasPress);
         if (keyboard.escIsPress) {
             if (esc == 10) {
                 if (escWasPress) {
                     escWasPress = false;
+                    buttonWasAdd = false;
                     esc = 1;
 
                 } else {
                     escWasPress = true;
+                    buttonWasAdd = false;
                     esc = 1;
                 }
+
                 return;
             }
         }
-        if (esc == 10){
+        if (esc == 10) {
             return;
         }
-        esc+= 1;
+        esc += 1;
         return;
     }
 
-    public void buttons() {
-        JButton button = new JButton("Switch to Panel 1");
-        button.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // switchPanel(panel1);
-                escWasPress = true;
-            }
-        });
-        button.setVisible(false);
-        add(button);
-    }
 
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
         // System.out.println(escWasPress);
-        if (!escWasPress) {
+        // buttonsVisible();
             gamInventory.drawItems(g2);
             endPoint.drawElemnt(g2);
 
@@ -202,10 +182,11 @@ public class game extends JPanel implements Runnable {
             player.lifeBar.drawLifeBar(g2);
             // // gamInventory.print();
             // mainScreen.openMainScreen(g2);
+
+            // addButons();
+            // repaint();
         }
 
-
-    }
 
     void updatePozicion() {
         for (enemy enemy : enemies) {
@@ -216,41 +197,45 @@ public class game extends JPanel implements Runnable {
         player.movePlayer();
         player.catchElements();
         player.atack();
-        escStatus();
+        // System.out.println("run");
         // player.moveRandom();
+    }
+
+    void loadingLevel() {
+        if (levelNumber != level.levelNumber) {
+            enemies = null;
+            walls = null;
+            // player = null;
+            level = new level(levelNumber, this);
+            try {
+                levelThread.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override
     public void run() {
-        // System.out.println(endPoint.xPozition + " "+ endPoint.yPozition);
         while (true) {
-            if (levelNumber != level.levelNumber) {
-                level = new level(levelNumber, this);
-                // levelThread = new Thread (level);
-                // levelThread.start();
-                try {
-                    levelThread.join();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-            while (!level.loaded) {
-
-            }
-
+            loadingLevel();
             while (!endPoint.inEndPoint() && player.isLive()) {
-                // System.out.println("run");
                 // while (frame < 1) {
                 long timethread = System.currentTimeMillis();
                 startTime = System.nanoTime();
-                updatePozicion();
-                repaint();
+
+                    updatePozicion();
+                    repaint();
 
                 frameCount(timethread);
                 if (endPoint.inEndPoint()) {
                     levelNumber += 1;
                 }
                 level.saveProgress();
+                if (levelNumber != level.levelNumber) {
+                    loadingLevel();
+                }
+                escStatus();
                 curentTime = System.nanoTime();
                 threadSleepTime();
             }

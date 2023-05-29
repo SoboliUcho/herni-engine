@@ -1,6 +1,5 @@
 package game;
 
-import java.awt.Point;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -230,8 +229,12 @@ public class level implements Runnable {
     }
 
     boolean openLevel() {
-        String name = "level" + levelNumber;
-        return openLevel(name);
+        if (levelNumber == 0) {
+            return openLevel("save");
+        } else {
+            String name = "level" + levelNumber;
+            return openLevel(name);
+        }
     }
 
     void saveProgress() {
@@ -254,7 +257,7 @@ public class level implements Runnable {
                 continue;
             }
             String enem = "enemy #" + enemy.xPozition + "#" + enemy.yPozition + "#false #" + enemy.lives + "#"
-                    + enemy.range;
+                    + enemy.strange+ "#" + enemy.range;
             enemyiList.add(enem);
         }
 

@@ -17,6 +17,7 @@ public class player extends entita {
 
     public player(int x, int y, game game, keyboard keyboard) {
         super(x, y, game);
+        this.game = game;
         xPozition = x * game.elementSize;
         yPozition= y * game.elementSize;
         type = "player";
@@ -28,6 +29,7 @@ public class player extends entita {
         openAttackImage();
         openCatchImage();
     }
+    
 
     public void catchAction(Graphics2D g2) {
         if (game.keyboard.iIsPress && animationCoolDown()) {
@@ -48,6 +50,8 @@ public class player extends entita {
     }
 
     public void movePlayer() {
+        // System.out.println("run");
+
         int previousX = xPozition;
         int previousY = yPozition;
 

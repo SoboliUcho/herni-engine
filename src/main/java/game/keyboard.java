@@ -21,6 +21,7 @@ public class keyboard implements KeyListener{
 
     @Override
     public void keyPressed(KeyEvent e) {
+        System.out.println("loop");
         int code = e.getKeyCode();
         if (code == KeyEvent.VK_W) {
             upIsPress = true;
@@ -72,6 +73,8 @@ public class keyboard implements KeyListener{
             System.out.print("I: ");
             System.out.println(iIsPress);
         }
+        // System.out.println("run");
+
     }
 
     @Override

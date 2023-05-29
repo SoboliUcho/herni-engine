@@ -1,27 +1,38 @@
 package game;
 
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
 
-import javax.swing.JButton;
+import javax.swing.*;
 
-public class mainScreen{
-    ArrayList<JButton> buttons;
+public class menu implements Runnable{
+    game game;
+    ArrayList<JMenuItem> leves = new ArrayList<>();
     public int levelCount;
     File[] levels;
-    game game;
-    Image LevelFrame;
+    JMenuBar menuBar = new JMenuBar();
+    JMenu levelsMenu = new JMenu("levels");
+    JMenu saveMenu = new JMenu("Save");
+    JMenu exitMenu = new JMenu("exit");
 
-    public mainScreen(game game) {
-        buttons = new ArrayList<>();
-        // openImageLevel();
+
+    public menu(game game) {
         this.game = game;
-        // addButons();
-    }
 
+    }
+   void saveMenu(){
+    JMenuItem button = new JMenuItem("save");
+    button.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            game.levelNumber = 0;
+            game.escWasPress = false;
+        }
+    });
+    saveMenu.add(button);
+   }
     void loadLevels() {
         File directory;
         directory = new File("src/main/java/levels/");
@@ -40,11 +51,18 @@ public class mainScreen{
         levelCount = levels.length;
     }
 
-    File[] levels() {
+    File[] levelsFiles() {
         return levels;
     }
 
-    void addButons() {
+    JMenuItem[] returnButons() {
+        JMenuItem[] button;
+        button = leves.toArray(new JMenuItem[leves.size()]);
+        System.out.println("buttons were add");
+        return button;
+    }
+
+    void loadButons() {
         for (int i = 0; i < levels.length; i++) {
             String leveltext = levels[i].getName();
             if (leveltext.contains("level")) {
@@ -52,40 +70,34 @@ public class mainScreen{
                 leveltext = leveltext.replace(".txt", "");
                 final int levelNumber = Integer.parseInt(leveltext);
 
-                JButton button = new JButton("level " + leveltext);
+                JMenuItem button = new JMenuItem("level " + leveltext);
                 button.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        // switchPanel(panel1);
-
                         game.levelNumber = levelNumber;
-                        game.escWasPress = false; 
-                        game.removeAll();
-                        game.window.frame.add(game);
-                        game.window.frame.addKeyListener(game.keyboard);
-                        game.buttonWasAdd = false;
-                        // game.repaint();
+                        game.escWasPress = false;
                     }
-
                 });
-                // button.setVisible(false);
-                buttons.add(button);
-            }
+                leves.add(button);
+            } 
         }
     }
 
-    JButton[] loadButons() {
-        JButton[] button;
-        button = buttons.toArray(new JButton[buttons.size()]);
-        System.out.println("buttons were add");
-        return button;
+    void addButons() {
+        for (JMenuItem file : leves) {
+            levelsMenu.add(file);
+        }
+        menuBar.add(levelsMenu);
+        menuBar.add(saveMenu);
+        // menuBar.add(exitMenu);
+        game.window.frame.setJMenuBar(menuBar);
     }
-
-   
+    @Override
     public void run() {
-        // System.out.println("buttons were add");
         loadLevels();
+        loadButons();
+        saveMenu();
         addButons();
-        // loadButons();
+        System.out.println("buttons were add");
     }
 }
