@@ -120,6 +120,7 @@ public class player extends entita {
                         if (game.gamInventory.inventory[i] instanceof heart) {
                             lives = lives + game.gamInventory.inventory[i].lives;
                         } else {
+                            inventory.inventory[f] = game.gamInventory.inventory[i];
                             inventory.inventory[f].toInventory(game.gamInventory.inventory[i]);
                             System.out.println(inventory.inventory[f].type + " was moovew to inventory");
                             addStrange(game.gamInventory.inventory[i].strange);

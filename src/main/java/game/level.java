@@ -29,9 +29,9 @@ public class level implements Runnable {
 
     game game;
     ArrayList<wall> walls = new ArrayList<>();
-    ArrayList<enemy> enemies = new ArrayList<>();
-    ArrayList<element> items = new ArrayList<>();
-    ArrayList<element> playerItems = new ArrayList<>();
+    public ArrayList<enemy> enemies = new ArrayList<>();
+    public ArrayList<element> items = new ArrayList<>();
+    public ArrayList<element> playerItems = new ArrayList<>();
     player player;
 
     /**
@@ -52,7 +52,7 @@ public class level implements Runnable {
     }
 
     /** * uploads level elements to the game instance */
-    void loadLevel() {
+    public void loadLevel() {
         game.gamInventory = new inventory(game, items.size());
         for (int i = 0; i < items.size(); i++) {
             game.gamInventory.addEelentToInventory(items.get(i));
@@ -72,7 +72,7 @@ public class level implements Runnable {
      *
      * @param text the text data representing the game elements
      */
-    void analiseText(ArrayList<String> text) {
+    public void analiseText(ArrayList<String> text) {
         for (int i = 0; i < text.size(); i++) {
             String[] pieces = text.get(i).split("#");
             for (int j = 0; j < pieces.length; j++) {
@@ -83,20 +83,15 @@ public class level implements Runnable {
             // System.out.print(pieces[0] + "-" +pieces[1]);
             if (pieces[0].equals("player")) {
                 makePlayer(pieces);
-            }
-            if (pieces[0].equals("enemy")) {
+            } else if (pieces[0].equals("enemy")) {
                 makeEnemy(pieces);
-            }
-            if (pieces[0].equals("live")) {
+            } else if (pieces[3].equals("heart")) {
                 makeLive(pieces);
-            }
-            if (pieces[0].equals("element")) {
+            } else if (pieces[0].equals("element")) {
                 makeElement(pieces);
-            }
-            if (pieces[0].equals("wall")) {
+            } else if (pieces[0].equals("wall")) {
                 makeWall(pieces);
-            }
-            if (pieces[0].equals("endPoint")) {
+            } else if (pieces[0].equals("endPoint")) {
                 int x = Integer.parseInt(pieces[1]);
                 int y = Integer.parseInt(pieces[2]);
                 String[] keys;
@@ -118,12 +113,12 @@ public class level implements Runnable {
      */
     void makePlayer(String[] pieces) {
         game.addPlayer(Integer.parseInt(pieces[1]), Integer.parseInt(pieces[2]));
-        if (Boolean.parseBoolean(pieces[3]) == true) {
+        if (Boolean.parseBoolean(pieces[3]) == false) {
             game.player.xPozition = Integer.parseInt(pieces[1]);
             game.player.yPozition = Integer.parseInt(pieces[2]);
             game.player.setDefault();
             game.player.lives = Integer.parseInt(pieces[4]);
-            game.player.xPozition = Integer.parseInt(pieces[5]);
+            game.player.strange = Integer.parseInt(pieces[5]);
         }
     }
 
@@ -304,7 +299,8 @@ public class level implements Runnable {
      * Saves the current game progress to a file.
      */
     void saveProgress() {
-        String player = "player #" + game.player.xPozition + "#" + game.player.yPozition + "#true #" + game.player.lives
+        String player = "player #" + game.player.xPozition + "#" + game.player.yPozition + "#false #"
+                + game.player.lives
                 + "#" + game.player.strange;
 
         String endPointString = "endPoint #" + game.endPoint.xPozition + "#" + game.endPoint.yPozition + "#";
@@ -328,16 +324,19 @@ public class level implements Runnable {
         }
 
         ArrayList<String> gameItemList = new ArrayList<>();
+
         for (element item : game.gamInventory.inventory) {
-            String enem = item.type + "#" + item.xPozition + "#" + item.yPozition + "#" + item.type + "#game";
-            gameItemList.add(enem);
+            if (item != null) {
+                String enem = "element #" + item.xPozition + "#" + item.yPozition + "#" + item.type + "#game";
+                gameItemList.add(enem);
+            }
         }
 
         ArrayList<String> playerItemList = new ArrayList<>();
 
         for (element item : game.player.inventory.inventory) {
             if (item != null) {
-                String enem = item.type + "#" + item.xPozition + "#" + item.yPozition + "#" + item.type + "#player";
+                String enem = "element #" + item.xPozition + "#" + item.yPozition + "#" + item.type + "#player";
                 playerItemList.add(enem);
             }
         }

@@ -25,7 +25,7 @@ public class game extends JPanel implements Runnable {
     public int frame = 0;
     int esc = 1;
 
-    int levelNumber = 0;
+    int levelNumber = 1;
     public level level;
     public keyboard keyboard;
     public window window;
@@ -75,7 +75,7 @@ public class game extends JPanel implements Runnable {
      *
      * @param player the player object
      */
-    void addPlayer(entity.player player) {
+    public void addPlayer(entity.player player) {
         this.player = player;
         player.game = this;
     }
