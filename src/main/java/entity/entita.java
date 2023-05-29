@@ -8,6 +8,7 @@ import java.util.Random;
 import javax.imageio.ImageIO;
 
 import game.game;
+import game.logger;
 
 /**
  * The entita class represents an entity in the game.
@@ -148,7 +149,7 @@ public class entita {
      * @param g2 the graphics context
      */
     public void draw(Graphics2D g2) {
-        // System.out.println(type + " [" + xPozition + ", " + yPozition + "]");
+        logger.logFiner(type + " [" + xPozition + ", " + yPozition + "]");
 
         g2.drawImage(image, xPozition, yPozition, game.elementSize, game.elementSize, null);
     }
@@ -161,7 +162,7 @@ public class entita {
         Random rand = new Random();
         xX = rand.nextInt(600);
         yY = rand.nextInt(600);
-        System.out.println("new random pozition: [" + xX + ", " + yY + "]");
+        logger.logInfo("new random pozition: [" + xX + ", " + yY + "]");
         // System.out.println(xX);
         // System.out.println(yY);
     }
@@ -215,7 +216,7 @@ public class entita {
                         && yPozition >= usey - game.elementSize && yPozition <= usey + game.elementSize) {
                     xPozition = previousX;
                     yPozition = previousY;
-                    // System.out.println(" colizion at: [" + useX + ", " + usey + "]");
+                    logger.logFine(" colizion at: [" + useX + ", " + usey + "]");
 
                 }
 
@@ -257,7 +258,7 @@ public class entita {
         } else {
             if (game.frame == 1) {
                 secondsCounter += 1;
-                System.out.println(secondsCounter);
+                logger.logFiner("coolDown seccond counter"+secondsCounter);
             }
             return false;
         }
@@ -287,7 +288,6 @@ public class entita {
         int useX = xPozition;
         int useY = yPozition;
 
-        // System.out.println(rang);
         if (useX - game.elementSize - rang <= entita.xPozition && useX + game.elementSize + rang >= entita.xPozition
                 && useY - game.elementSize - rang <= entita.yPozition
                 && useY + game.elementSize + rang >= entita.yPozition) {

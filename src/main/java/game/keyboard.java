@@ -31,7 +31,7 @@ public class keyboard implements KeyListener {
      */
     @Override
     public void keyPressed(KeyEvent e) {
-        System.out.println("loop");
+        // System.out.println("loop");
         int code = e.getKeyCode();
         if (code == KeyEvent.VK_W) {
             upIsPress = true;

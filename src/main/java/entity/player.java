@@ -2,6 +2,7 @@ package entity;
 
 import game.keyboard;
 import game.lifeBar;
+import game.logger;
 
 import java.awt.Graphics2D;
 
@@ -122,7 +123,7 @@ public class player extends entita {
                         } else {
                             inventory.inventory[f] = game.gamInventory.inventory[i];
                             inventory.inventory[f].toInventory(game.gamInventory.inventory[i]);
-                            System.out.println(inventory.inventory[f].type + " was moovew to inventory");
+                            logger.logInfo( inventory.inventory[f].type + " was moovew to inventory");
                             addStrange(game.gamInventory.inventory[i].strange);
                         }
                         game.gamInventory.inventory[i] = null;
@@ -131,7 +132,7 @@ public class player extends entita {
                     }
                 }
                 if (full) {
-                    System.out.println("inventory is full");
+                    logger.logInfo("inventory is full");
                 }
             }
         }
@@ -167,7 +168,7 @@ public class player extends entita {
                 }
                 makeAction = false;
                 atack = true;
-                System.out.println("makeAtack");
+                logger.logInfo("makeAtack");
             }
         }
     }

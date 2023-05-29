@@ -1,10 +1,5 @@
 package game;
 
-import java.awt.Window;
-
-import entity.player;
-
-// import entity.player;
 /*
  * start app
  */

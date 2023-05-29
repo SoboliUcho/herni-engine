@@ -7,6 +7,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 import game.game;
+import game.logger;
 
 /**
  * The Wall class represents a wall in the game. It defines the position,
@@ -53,9 +54,10 @@ public class wall {
         String fullname = "/img/wall.png";
         try {
             wall = ImageIO.read(getClass().getResourceAsStream(fullname));
-            System.out.println("successful image uploaded of Wall");
+            logger.logInfo("successful image uploaded of Wall");
             // System.out.println();
         } catch (IOException e) {
+            logger.logWarning("fail uplouad image of Wall");
             e.printStackTrace();
         }
     }

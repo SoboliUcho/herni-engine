@@ -7,6 +7,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 import game.game;
+import game.logger;
 
 /**
  * The element class represents an element in the game.
@@ -133,6 +134,7 @@ public class element {
      * @param g2         the graphics context
      */
     public void drawElemnt(int xPozition2, int yPozition2, Graphics2D g2) {
+        logger.logFiner(this.type + "was draw at " + xPozition + yPozition);
         g2.drawImage(image, xPozition2, yPozition2, game.elementSize, game.elementSize, null);
     }
 
@@ -145,7 +147,7 @@ public class element {
         String fullname = "/img/" + name + ".png";
         try {
             image = ImageIO.read(getClass().getResourceAsStream(fullname));
-            System.out.print("successful image uploaded of ");
+            logger.logInfo("successful image uploaded of ");
             System.out.println(name);
         } catch (IOException e) {
             e.printStackTrace();
@@ -179,7 +181,6 @@ public class element {
      */
     public boolean isColectable(player playere) {
         if (elementIsInRange(playere) && isInInventory == false) {
-            // printColect();
             return true;
         }
         return false;

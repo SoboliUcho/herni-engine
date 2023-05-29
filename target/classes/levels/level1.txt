@@ -1,5 +1,5 @@
 player #10 #10 #true
-endPoint #12 #12 #null
+endPoint #20 #20 #null
 enemy #25 #25 #true
 wall #3 #3 #6 #-3
 element #10 #11 #heart #game
