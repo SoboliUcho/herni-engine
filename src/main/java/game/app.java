@@ -7,7 +7,7 @@ import java.util.logging.Level;
  */
 public class app {
     public static void main( String[] args ){
-        window newGame = new window(Level.INFO);
+        window newGame = new window(Level.SEVERE);
         //TODO loger seting
     }
 }

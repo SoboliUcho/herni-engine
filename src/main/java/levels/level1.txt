@@ -1,4 +1,4 @@
-player #10 #10 #true
+player #2 #2 #true
 endPoint #20 #20 #null
 enemy #25 #25 #true
 wall #3 #3 #6 #-3

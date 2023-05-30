@@ -58,7 +58,8 @@ public class level implements Runnable {
             game.gamInventory.addEelentToInventory(items.get(i));
         }
         for (int i = 0; i < playerItems.size(); i++) {
-            game.player.inventory.addEelentToInventory(items.get(i));
+            playerItems.get(i).isInInventory = true;
+            game.player.inventory.addEelentToInventory(playerItems.get(i));
         }
         enemy[] enemy = enemies.toArray(new enemy[enemies.size()]);
         game.addEnemys(enemy);
@@ -83,9 +84,9 @@ public class level implements Runnable {
                 makePlayer(pieces);
             } else if (pieces[0].equals("enemy")) {
                 makeEnemy(pieces);
-            } else if (pieces[3].equals("heart")) {
+            } else if (pieces[0].equals("element") &&pieces[3].equals("heart")) {
                 makeLive(pieces);
-            } else if (pieces[0].equals("element")) {
+            } else if (pieces[0].equals("element")&&!pieces[3].equals("heart")) {
                 makeElement(pieces);
             } else if (pieces[0].equals("wall")) {
                 makeWall(pieces);
@@ -345,7 +346,7 @@ public class level implements Runnable {
 
         for (element item : game.player.inventory.inventory) {
             if (item != null) {
-                String enem = "element #" + item.xPozition + "#" + item.yPozition + "#" + item.type + "#player";
+                String enem = "element #" + item.xPozition + "#" + item.yPozition + " #" + item.type + "#player";
                 playerItemList.add(enem);
             }
         }

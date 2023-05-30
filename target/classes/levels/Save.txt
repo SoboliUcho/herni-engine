@@ -1,4 +1,6 @@
-player #166#314#false #5#1
-endPoint #12#12#null
+player #42#112#false #5#0
+endPoint #20#20#null
 enemy #500#500#false #1#1#2
-wall #3#3#6#1
+element #10#11#heart#game
+element #0#0 #sword#player
+wall #3#3#6#-3

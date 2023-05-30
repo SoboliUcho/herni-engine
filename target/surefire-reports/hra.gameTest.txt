@@ -1,4 +1,16 @@
 -------------------------------------------------------------------------------
 Test set: hra.gameTest
 -------------------------------------------------------------------------------
-Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.598 s - in hra.gameTest
+Tests run: 3, Failures: 0, Errors: 3, Skipped: 0, Time elapsed: 0.381 s <<< FAILURE! - in hra.gameTest
+testAddWalls(hra.gameTest)  Time elapsed: 0.289 s  <<< ERROR!
+java.lang.IllegalArgumentException: input == null!
+	at hra.gameTest.setUp(gameTest.java:17)
+
+testAddEndPoint(hra.gameTest)  Time elapsed: 0.001 s  <<< ERROR!
+java.lang.IllegalArgumentException: input == null!
+	at hra.gameTest.setUp(gameTest.java:17)
+
+testAddPlayer(hra.gameTest)  Time elapsed: 0.002 s  <<< ERROR!
+java.lang.IllegalArgumentException: input == null!
+	at hra.gameTest.setUp(gameTest.java:17)
+

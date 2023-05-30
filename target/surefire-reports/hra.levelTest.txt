@@ -1,0 +1,16 @@
+-------------------------------------------------------------------------------
+Test set: hra.levelTest
+-------------------------------------------------------------------------------
+Tests run: 3, Failures: 0, Errors: 3, Skipped: 0, Time elapsed: 0 s <<< FAILURE! - in hra.levelTest
+testAnaliseText(hra.levelTest)  Time elapsed: 0 s  <<< ERROR!
+java.lang.IllegalArgumentException: input == null!
+	at hra.levelTest.setUp(levelTest.java:21)
+
+testPlayerInventory(hra.levelTest)  Time elapsed: 0 s  <<< ERROR!
+java.lang.IllegalArgumentException: input == null!
+	at hra.levelTest.setUp(levelTest.java:21)
+
+testLoadLevel(hra.levelTest)  Time elapsed: 0 s  <<< ERROR!
+java.lang.IllegalArgumentException: input == null!
+	at hra.levelTest.setUp(levelTest.java:21)
+

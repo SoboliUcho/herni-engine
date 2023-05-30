@@ -124,7 +124,9 @@ public class player extends entita {
                             inventory.inventory[f] = game.gamInventory.inventory[i];
                             inventory.inventory[f].toInventory(game.gamInventory.inventory[i]);
                             logger.logInfo( inventory.inventory[f].type + " was moovew to inventory");
-                            addStrange(game.gamInventory.inventory[i].strange);
+                            addStrange(inventory.inventory[f].strange);
+                            game.gamInventory.inventory[i] = null;
+                            
                         }
                         game.gamInventory.inventory[i] = null;
                         full = false;

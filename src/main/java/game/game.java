@@ -26,7 +26,7 @@ public class game extends JPanel implements Runnable {
     public int frame = 0;
     int esc = 1;
 
-    int levelNumber = 0;
+    int levelNumber = 1;
     public level level;
     public keyboard keyboard;
     public window window;
@@ -93,6 +93,13 @@ public class game extends JPanel implements Runnable {
      */
     public void addEnemys(enemy[] enemy) {
         this.enemies = enemy;
+        // System.out.println("adding enemies");
+
+        for (int index = 0; index < enemy.length; index++) {
+        System.out.println(this.enemies[index]);
+        }
+        System.out.println("add enemies");
+
         logger.logFine("add enemies");
 
     }
@@ -216,7 +223,7 @@ public class game extends JPanel implements Runnable {
         Graphics2D g2 = (Graphics2D) g;
             gamInventory.drawItems(g2);
             endPoint.drawElemnt(g2);
-
+            // System.out.println(enemies);
             for (enemy enemy : enemies) {
                 if (enemy.isLive()) {
                     enemy.draw(g2);
@@ -285,10 +292,10 @@ public class game extends JPanel implements Runnable {
                 if (endPoint.inEndPoint()) {
                     levelNumber += 1;
                 }
-                level.saveProgress();
-                if (levelNumber != level.levelNumber) {
-                    loadingLevel();
+                if (levelNumber != level.levelNumber){
+                    break;
                 }
+                level.saveProgress();
                 escStatus();
                 curentTime = System.nanoTime();
                 threadSleepTime();
